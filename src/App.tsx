@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Home, Folder, MessageSquare, Moon, Sun, ExternalLink, Mail, FileText } from 'lucide-react';
 import { FaGithub, FaLinkedin, FaSpotify } from 'react-icons/fa'
 import type { PortfolioData } from './types';
+import Giscus from '@giscus/react';
 
 // Portfolio Data - Replace with your actual information
 const PORTFOLIO_DATA: PortfolioData = {
@@ -555,48 +556,21 @@ const DiscussionsPage: React.FC<PageProps> = ({ isDark }) => (
         Leave a comment or start a discussion below
       </p>
     </div>
-
-    {/* Giscus Integration Instructions */}
-    <div className={`p-6 rounded-lg transition-colors duration-300 border ${
-      isDark ? 'bg-[#0d1117] border-[#30363d]' : 'bg-gray-50 border-gray-200'
-    }`}>
-      <h3 className={`text-lg font-semibold mb-3 transition-colors duration-300 ${
-        isDark ? 'text-white' : 'text-gray-900'
-      }`}>
-        Setup Giscus
-      </h3>
-      <p className={`mb-4 transition-colors duration-300 ${
-        isDark ? 'text-gray-500' : 'text-gray-600'
-      }`}>
-        To enable discussions on your portfolio:
-      </p>
-      <ol className={`list-decimal list-inside space-y-2 transition-colors duration-300 ${
-        isDark ? 'text-gray-500' : 'text-gray-600'
-      }`}>
-        <li>Visit <a href="https://giscus.app" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">giscus.app</a></li>
-        <li>Connect your GitHub repository</li>
-        <li>Enable GitHub Discussions on your repo</li>
-        <li>Copy the configuration and replace the placeholder below</li>
-      </ol>
-    </div>
-
-    {/* Giscus Component Placeholder */}
-    <div className={`p-8 rounded-lg text-center transition-colors duration-300 border-2 border-dashed ${
-      isDark ? 'bg-[#0d1117] border-[#30363d]' : 'bg-gray-50 border-gray-200'
-    }`}>
-      <MessageSquare size={48} className={`mx-auto mb-4 transition-colors duration-300 ${
-        isDark ? 'text-gray-600' : 'text-gray-400'
-      }`} />
-      <p className={`transition-colors duration-300 ${
-        isDark ? 'text-gray-500' : 'text-gray-600'
-      }`}>
-        Giscus comments will appear here once configured
-      </p>
-      <p className={`text-sm mt-2 transition-colors duration-300 ${
-        isDark ? 'text-gray-600' : 'text-gray-500'
-      }`}>
-        Install: npm install @giscus/react
-      </p>
+    <div className="mt-6">
+      <Giscus
+        repo="Tofulati/portfolio_v3"
+        repoId="R_kgDOQul_vw"
+        category="General"
+        categoryId="DIC_kwDOQul_v84C0OR1"
+        mapping="pathname"
+        reactionsEnabled='0'
+        strict="0"
+        emitMetadata="1"
+        inputPosition="bottom"
+        theme="preferred_color_scheme"
+        lang="en"
+        loading="lazy"
+      />
     </div>
   </div>
 );
