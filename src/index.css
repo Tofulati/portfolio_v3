@@ -17,6 +17,33 @@
   animation: fadeIn 0.4s ease-out;
 }
 
+@keyframes wave1 {
+  0%, 100% { 
+    transform: translateX(-50%) translateY(0px) rotate(0deg); 
+  }
+  50% { 
+    transform: translateX(0%) translateY(-10px) rotate(1deg); 
+  }
+}
+
+@keyframes wave2 {
+  0%, 100% { 
+    transform: translateX(-60%) translateY(5px) rotate(-0.5deg); 
+  }
+  50% { 
+    transform: translateX(-10%) translateY(-8px) rotate(0.5deg); 
+  }
+}
+
+@keyframes wave3 {
+  0%, 100% { 
+    transform: translateX(-40%) translateY(3px) rotate(0.5deg); 
+  }
+  50% { 
+    transform: translateX(-5%) translateY(-12px) rotate(-1deg); 
+  }
+}
+
 * {
   scrollbar-width: none; 
   -ms-overflow-style: none;

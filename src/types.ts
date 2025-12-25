@@ -20,12 +20,16 @@ export interface SimpleProject {
   type: string;
   tech: string[];
   link: string;
+  dateAdded: string;
+  image: string;
 }
 
 export interface SimpleDoc {
   name: string;
   type: string;
   link: string;
+  dateAdded: string;
+  image: string;
 }
 
 export interface PortfolioData {

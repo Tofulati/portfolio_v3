@@ -69,31 +69,41 @@ const PORTFOLIO_DATA: PortfolioData = {
       name: "GuitarMax",
       type: "Realtime Learning Guitar IOS Application",
       tech: ["Swift"],
-      link: "https://github.com/Tofulati/guitarmax"
+      link: "https://github.com/Tofulati/guitarmax",
+      dateAdded: "December 2025",
+      image: "/images/guitarmax.png"
     },
     {
       name: "Stock-em",
       type: "Full Stack Stock Prediction and Recommendation",
       tech: ["pytorch", "huggingface", "HTML/CSS/JS"],
-      link: "https://github.com/Tofulati/stock-em"
+      link: "https://github.com/Tofulati/stock-em",
+      dateAdded: "October 2025 - Present",
+      image: "/images/stock-em.png"
     },
     {
       name: "WebdevScan",
       type: "Train/Battle using inspect element",
       tech: ["HTML/CSS/JS", "MongoDB"],
-      link: "https://github.com/Tofulati/webdevscav"
+      link: "https://github.com/Tofulati/webdevscav",
+      dateAdded: "October 2025 - Present",
+      image: "/images/webdevscan.png"
     },
     {
       name: "Mewsicat",
       type: "Cats + Music + Social Media Mobile App",
       tech: ["React Native", "Expo"],
-      link: "https://github.com/MewsiCat/react-native-app"
+      link: "https://github.com/MewsiCat/react-native-app",
+      dateAdded: "November 2023 - May 2024",
+      image: "/images/mewsicat.jpg"
     },
     {
       name: "Earth Equity",
       type: "NASA Space App, Trend Prediciton Web Application",
       tech: ["React", "Python"],
-      link: "https://github.com/hajin-park/Earth-Equity"
+      link: "https://github.com/hajin-park/Earth-Equity",
+      dateAdded: "October 2023",
+      image: "/images/earthequitylogo.svg"
     }
   ],
 
@@ -101,12 +111,16 @@ const PORTFOLIO_DATA: PortfolioData = {
     {
       name: "Albert Ho's Resume.pdf",
       type: "PDF Document",
-      link: "/documents/AlbertHo.pdf"
+      link: "/documents/AlbertHo.pdf",
+      dateAdded: "December 23, 2025",
+      image: "/images/AlbertHo.jpg"
     }, 
     {
       name: "LLNL Final Poster",
       type: "JPG Image",
-      link: "/documents/llnl-final.jpg"
+      link: "/documents/llnl-final.jpg",
+      dateAdded: "August 2024",
+      image: "/documents/llnl-final.jpg"
     }
   ]
 };
@@ -249,82 +263,121 @@ interface PageProps {
 const HomePage: React.FC<PageProps> = ({ isDark }) => (
   <div className="space-y-12 animate-fadeIn">
     {/* Hero Section */}
-    <div className="text-center space-y-4">
-      <h1 className={`text-5xl sm:text-6xl font-bold transition-colors duration-300 ${
-        isDark ? 'text-white' : 'text-gray-900'
-      }`}>
-        {PORTFOLIO_DATA.name}
-      </h1>
-      <p className={`text-xl sm:text-2xl transition-colors duration-300 ${
-        isDark ? 'text-gray-400' : 'text-gray-600'
-      }`}>
-        {PORTFOLIO_DATA.tagline}
-      </p>
-      <p className={`text-base sm:text-lg max-w-2xl mx-auto transition-colors duration-300 ${
-        isDark ? 'text-gray-500' : 'text-gray-600'
-      }`}>
-        {PORTFOLIO_DATA.bio}
-        <br />
-        {PORTFOLIO_DATA.current.split('|')[0]}
-        <img 
-          src="/images/ucsd-logo.png" 
-          alt="UCSD" 
-          className="w-5 h-5 inline-block"
-        />
-        {PORTFOLIO_DATA.current.split('|')[1]}
-      </p>
-      
-      {/* Social Links */}
-      <div className="flex justify-center gap-4 pt-4">
-        <a
-          href={PORTFOLIO_DATA.social.github}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={`p-3 rounded-lg transition-all duration-200 hover:scale-110 ${
-            isDark
-              ? 'bg-[#21262d] hover:bg-[#30363d] text-white'
-              : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
-          }`}
-        >
-          <FaGithub size={24} />
-        </a>
+    <div className={`rounded-xl overflow-hidden border transition-colors duration-300 ${
+      isDark ? 'bg-[#0d1117] border-[#30363d]' : 'bg-white border-gray-200'
+    }`}>
+      {/* Banner Image */}
+      <div 
+        className="relative h-48 sm:h-64 w-full"
+        style={{ 
+          backgroundImage: "url('/images/background.jpg')", 
+          backgroundSize: 'cover', 
+          backgroundPosition: 'center', 
+          opacity: 0.7
+        }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/20"></div>
+      </div>
 
-        <a
-          href={PORTFOLIO_DATA.social.linkedin}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={`p-3 rounded-lg transition-all duration-200 hover:scale-110 ${
-            isDark
-              ? 'bg-[#21262d] hover:bg-[#30363d] text-white'
-              : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
-          }`}
-        >
-          <FaLinkedin size={24} />
-        </a>
+      {/* Profile Content */}
+      <div className="relative px-6 sm:px-8 pb-6">
+        <div className="flex flex-col sm:flex-row gap-6 sm:gap-8 lg:gap-10 sm:items-start">
+          {/* Profile Picture - Overlapping Banner */}
+          <div className="relative -mt-16 sm:-mt-20 lg:-mt-24 flex-shrink-0">
+            <div className={`w-32 h-32 sm:w-40 sm:h-40 lg:w-52 lg:h-52 rounded-full overflow-hidden border-4 ${
+              isDark ? 'border-[#0d1117]' : 'border-white'
+            } shadow-xl`}>
+              <img
+                src="/images/profile.jpg"
+                alt="Albert Ho"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
 
-        <a
-          href={PORTFOLIO_DATA.social.spotify}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={`p-3 rounded-lg transition-all duration-200 hover:scale-110 ${
-            isDark
-              ? 'bg-[#21262d] hover:bg-[#30363d] text-green-400'
-              : 'bg-gray-100 hover:bg-gray-200 text-green-600'
-          }`}
-        >
-          <FaSpotify size={24} />
-        </a>
+          {/* Info Section */}
+          <div className="flex-1 space-y-3 lg:space-y-4 sm:-mt-16 lg:-mt-20">
+            <div>
+              <h1 className={`text-3xl sm:text-4xl lg:text-5xl font-bold transition-colors duration-300 ${
+                isDark ? 'text-white' : 'text-gray-900'
+              }`}>
+                {PORTFOLIO_DATA.name}
+              </h1>
+              <p className={`text-lg sm:text-xl lg:text-2xl mt-1 font-medium transition-colors duration-300 ${
+                isDark ? 'text-gray-300' : 'text-gray-800'
+              }`}>
+                {PORTFOLIO_DATA.tagline}
+              </p>
+            </div>
 
-        <a
-          href={`mailto:${PORTFOLIO_DATA.social.email}`}
-          className={`p-3 rounded-lg transition-all duration-200 hover:scale-110 ${
-            isDark
-              ? 'bg-[#21262d] hover:bg-[#30363d] text-white'
-              : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
-          }`}
-        >
-          <Mail size={24} />
-        </a>
+            <div className={`flex items-center gap-2 text-sm lg:text-base transition-colors duration-300 ${
+              isDark ? 'text-gray-400' : 'text-gray-700'
+            }`}>
+              <span>{PORTFOLIO_DATA.current.split('|')[0]}</span>
+              <img 
+                src="/images/ucsd-logo.png" 
+                alt="UCSD" 
+                className="w-4 h-4 lg:w-5 lg:h-5"
+              />
+            </div>
+
+            <p className={`text-base lg:text-lg max-w-2xl transition-colors duration-300 ${
+              isDark ? 'text-gray-300' : 'text-gray-700'
+            }`}>
+              {PORTFOLIO_DATA.bio}
+            </p>
+
+            {/* Social Links */}
+            <div className="flex gap-3 pt-2">
+              <a 
+                href={PORTFOLIO_DATA.social.github} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className={`p-2.5 lg:p-3 rounded-lg transition-all duration-200 ${
+                  isDark 
+                    ? 'bg-[#21262d] hover:bg-[#30363d] text-gray-300' 
+                    : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+                } hover:shadow-[0_0_20px_rgba(255,255,255,0.3)]`}
+              >
+                <FaGithub size={20} className="lg:w-6 lg:h-6" />
+              </a>
+              <a 
+                href={PORTFOLIO_DATA.social.linkedin} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className={`p-2.5 lg:p-3 rounded-lg transition-all duration-200 ${
+                  isDark 
+                    ? 'bg-[#21262d] hover:bg-[#30363d] text-gray-300' 
+                    : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+                } hover:shadow-[0_0_20px_rgba(10,102,194,0.5)]`}
+              >
+                <FaLinkedin size={20} className="lg:w-6 lg:h-6" />
+              </a>
+              <a 
+                href={PORTFOLIO_DATA.social.spotify} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className={`p-2.5 lg:p-3 rounded-lg transition-all duration-200 ${
+                  isDark 
+                    ? 'bg-[#21262d] hover:bg-[#30363d] text-gray-300' 
+                    : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+                } hover:shadow-[0_0_20px_rgba(30,215,96,0.5)]`}
+              >
+                <FaSpotify size={20} className="lg:w-6 lg:h-6" />
+              </a>
+              <a 
+                href={`mailto:${PORTFOLIO_DATA.social.email}`} 
+                className={`p-2.5 lg:p-3 rounded-lg transition-all duration-200 ${
+                  isDark 
+                    ? 'bg-[#21262d] hover:bg-[#30363d] text-gray-300' 
+                    : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+                } hover:shadow-[0_0_20px_rgba(234,67,53,0.5)]`}
+              >
+                <Mail size={20} className="lg:w-6 lg:h-6" />
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -432,39 +485,57 @@ const HomePage: React.FC<PageProps> = ({ isDark }) => (
 
     {/* Contact Section */}
     <div
-      className={`rounded-xl p-8 border transition-all duration-300 text-center ${
+      className={`rounded-xl p-8 border transition-all duration-300 text-center relative overflow-hidden ${
         isDark
           ? 'bg-[#0d1117] border-[#30363d] shadow-[0_0_0_1px_rgba(255,255,255,0.02)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.6)]'
           : 'bg-gray-50 border-gray-200 shadow-sm hover:shadow-lg'
       }`}
     >
-      <h2
-        className={`text-2xl font-semibold mb-2 ${
-          isDark ? 'text-white' : 'text-gray-900'
-        }`}
-      >
-        Get in touch
-      </h2>
+      {/* Animated Blue Waves Background */}
+      <div className="absolute inset-0 opacity-20">
+        <div className="absolute w-full h-full">
+          <div className="absolute top-0 left-0 w-[200%] h-full bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-30 animate-[wave1_8s_ease-in-out_infinite]"></div>
+          <div className="absolute top-0 left-0 w-[200%] h-full bg-gradient-to-r from-transparent via-blue-400 to-transparent opacity-40 animate-[wave2_10s_ease-in-out_infinite]"></div>
+          <div className="absolute top-0 left-0 w-[200%] h-full bg-gradient-to-r from-transparent via-blue-600 to-transparent opacity-30 animate-[wave3_12s_ease-in-out_infinite]"></div>
+        </div>
+      </div>
 
-      <p
-        className={`mb-6 max-w-md mx-auto ${
-          isDark ? 'text-gray-400' : 'text-gray-600'
-        }`}
-      >
-        Interested in collaborating, research, or just chatting?
-      </p>
-
-      <div className="flex justify-center">
-        <a
-          href={`mailto:${PORTFOLIO_DATA.social.email}`}
-          className={`px-6 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
-            isDark
-              ? 'bg-[#21262d] hover:bg-[#30363d] text-white'
-              : 'bg-white hover:bg-gray-100 text-gray-800'
-          } hover:scale-[1.04]`}
+      {/* Content */}
+      <div className="relative z-10">
+        <h2
+          className={`text-2xl font-semibold mb-2 ${
+            isDark ? 'text-white' : 'text-gray-900'
+          }`}
         >
-          Lets connect &rarr;
-        </a>
+          Get in touch
+        </h2>
+
+        <p
+          className={`mb-6 max-w-md mx-auto ${
+            isDark ? 'text-gray-400' : 'text-gray-600'
+          }`}
+        >
+          Interested in collaborating, research, or just chatting?
+        </p>
+
+        <div className="flex justify-center">
+          <a
+            href={`mailto:${PORTFOLIO_DATA.social.email}`}
+            className={`group relative px-6 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 overflow-hidden ${
+              isDark
+                ? 'bg-[#21262d] hover:bg-blue-600 text-white'
+                : 'bg-white hover:bg-blue-500 text-gray-800 hover:text-white'
+            } hover:scale-[1.04]`}
+          >
+            <Mail size={18} className="transition-all duration-300 group-hover:translate-x-[200px] group-hover:opacity-0" />
+            <Mail size={18} className="absolute left-6 transition-all duration-500 translate-x-[-200px] opacity-0 group-hover:translate-x-0 group-hover:opacity-100 z-10" />
+            <span className="transition-opacity duration-300 group-hover:opacity-0">Lets connect</span>
+            <span className="absolute inset-0 flex items-center justify-center transition-all duration-300 opacity-0 group-hover:opacity-100">
+              Send mail
+            </span>
+            <span className="inline-block transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-0">&rarr;</span>
+          </a>
+        </div>
       </div>
     </div>
   </div>
@@ -496,33 +567,63 @@ const ProjectsPage: React.FC<PageProps> = ({ isDark }) => (
       </div>
 
       {/* File List */}
-      <div className={`divide-y ${isDark ? 'divide-[#30363d]' : 'divide-gray-200'}`}>
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
         {PORTFOLIO_DATA.documents.map((doc, idx) => (
           <a
             key={idx}
             href={doc.link}
             target="_blank"
             rel="noopener noreferrer"
-            className={`flex items-center justify-between p-4 transition-all duration-200 ${
-              isDark ? 'hover:bg-[#161b22]' : 'hover:bg-gray-100'
-            }`}
+            className={`group rounded-lg overflow-hidden border transition-all duration-300 hover:scale-[1.01]
+              flex lg:block ${
+                isDark
+                  ? 'bg-[#0d1117] border-[#30363d] hover:border-[#484f58]'
+                  : 'bg-white border-gray-200 hover:border-gray-300'
+              }`}
           >
-            <div className="flex items-center gap-3">
-              <FileText size={24} className={isDark ? 'text-blue-400' : 'text-blue-600'} />
-              <div>
-                <p className={`font-medium ${
-                  isDark ? 'text-white' : 'text-gray-900'
-                }`}>
-                  {doc.name}
-                </p>
-                <p className={`text-sm ${
-                  isDark ? 'text-gray-500' : 'text-gray-600'
-                }`}>
-                  {doc.type}
-                </p>
+            {/* Preview */}
+            {doc.image && (
+              <div className="w-24 h-24 lg:w-full lg:h-auto lg:aspect-video flex-shrink-0 overflow-hidden">
+                <img
+                  src={doc.image}
+                  alt={doc.name}
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
               </div>
+            )}
+
+            {/* Content */}
+            <div className="p-3 lg:p-4 flex-1 space-y-1">
+              <div className="flex items-start justify-between gap-2">
+                <h3
+                  className={`font-medium text-sm lg:text-lg ${
+                    isDark ? 'text-white' : 'text-gray-900'
+                  }`}
+                >
+                  {doc.name}
+                </h3>
+                <ExternalLink
+                  size={20}
+                  className="text-gray-400 group-hover:text-gray-600 transition-colors"
+                />
+              </div>
+
+              {doc.dateAdded && (
+                <p className="text-xs text-gray-500">
+                  {doc.dateAdded}
+                </p>
+              )}
+
+              <span
+                className={`inline-block mt-1 px-2 py-0.5 text-xs rounded ${
+                  isDark
+                    ? 'bg-[#21262d] text-gray-300'
+                    : 'bg-gray-100 text-gray-700'
+                }`}
+              >
+                {doc.type}
+              </span>
             </div>
-            <ExternalLink size={18} className={isDark ? 'text-gray-500' : 'text-gray-600'} />
           </a>
         ))}
       </div>
@@ -546,33 +647,64 @@ const ProjectsPage: React.FC<PageProps> = ({ isDark }) => (
       </div>
 
       {/* File List */}
-      <div className={`divide-y ${isDark ? 'divide-[#30363d]' : 'divide-gray-200'}`}>
+      <div className="grid sm:grid-cols-1 lg:grid-cols-3 gap-6 p-6">
         {PORTFOLIO_DATA.allProjects.map((project, idx) => (
           <a
             key={idx}
             href={project.link}
             target="_blank"
             rel="noopener noreferrer"
-            className={`flex items-center justify-between p-4 transition-all duration-200 ${
-              isDark ? 'hover:bg-[#161b22]' : 'hover:bg-gray-100'
-            }`}
+            className={`group rounded-lg overflow-hidden border transition-all duration-300 hover:scale-[1.01]
+              flex sm:flex-row lg:flex-col items-stretch ${
+                isDark
+                  ? 'bg-[#0d1117] border-[#30363d] hover:border-[#484f58]'
+                  : 'bg-white border-gray-200 hover:border-gray-300'
+              }`}
           >
-            <div className="flex items-center gap-3">
-              <Folder size={24} className={isDark ? 'text-yellow-400' : 'text-yellow-600'} />
-              <div>
-                <p className={`font-medium ${
-                  isDark ? 'text-white' : 'text-gray-900'
-                }`}>
+            {/* Image */}
+            {project.image && (
+              <div className="flex-shrink-0 w-24 sm:w-24 sm:h-24 overflow-hidden lg:w-full lg:h-auto lg:aspect-video">
+                <img
+                  src={project.image}
+                  alt={project.name}
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+            )}
+
+            {/* Content */}
+            <div className="flex-1 flex flex-col justify-center lg:p-4 sm:px-3 sm:py-2">
+              <div className="flex items-center justify-between">
+                <h3 className={`font-medium text-sm lg:text-lg ${isDark ? 'text-white' : 'text-gray-900'}`}>
                   {project.name}
-                </p>
-                <p className={`text-sm ${
-                  isDark ? 'text-gray-500' : 'text-gray-600'
-                }`}>
-                  {project.type} • {project.tech.join(', ')}
-                </p>
+                </h3>
+                <ExternalLink
+                  size={20}
+                  className="text-gray-400 group-hover:text-gray-600 transition-colors"
+                />
+              </div>
+
+              <p className={`text-xs lg:text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                {project.type}
+              </p>
+
+              {project.dateAdded && (
+                <p className="text-xs text-gray-500">{project.dateAdded}</p>
+              )}
+
+              <div className="flex flex-wrap gap-1 pt-1">
+                {project.tech.map((tech, i) => (
+                  <span
+                    key={i}
+                    className={`px-2 py-0.5 text-xs rounded ${
+                      isDark ? 'bg-[#21262d] text-gray-300' : 'bg-gray-100 text-gray-700'
+                    }`}
+                  >
+                    {tech}
+                  </span>
+                ))}
               </div>
             </div>
-            <ExternalLink size={18} className={isDark ? 'text-gray-500' : 'text-gray-600'} />
           </a>
         ))}
       </div>
