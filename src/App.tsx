@@ -267,7 +267,7 @@ const HomePage: React.FC<PageProps> = ({ isDark }) => (
         <br />
         {PORTFOLIO_DATA.current.split('|')[0]}
         <img 
-          src="/ucsd-logo.png" 
+          src="/images/ucsd-logo.png" 
           alt="UCSD" 
           className="w-5 h-5 inline-block"
         />
@@ -427,6 +427,44 @@ const HomePage: React.FC<PageProps> = ({ isDark }) => (
             </div>
           </a>
         ))}
+      </div>
+    </div>
+
+    {/* Contact Section */}
+    <div
+      className={`rounded-xl p-8 border transition-all duration-300 text-center ${
+        isDark
+          ? 'bg-[#0d1117] border-[#30363d] shadow-[0_0_0_1px_rgba(255,255,255,0.02)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.6)]'
+          : 'bg-gray-50 border-gray-200 shadow-sm hover:shadow-lg'
+      }`}
+    >
+      <h2
+        className={`text-2xl font-semibold mb-2 ${
+          isDark ? 'text-white' : 'text-gray-900'
+        }`}
+      >
+        Get in touch
+      </h2>
+
+      <p
+        className={`mb-6 max-w-md mx-auto ${
+          isDark ? 'text-gray-400' : 'text-gray-600'
+        }`}
+      >
+        Interested in collaborating, research, or just chatting?
+      </p>
+
+      <div className="flex justify-center">
+        <a
+          href={`mailto:${PORTFOLIO_DATA.social.email}`}
+          className={`px-6 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
+            isDark
+              ? 'bg-[#21262d] hover:bg-[#30363d] text-white'
+              : 'bg-white hover:bg-gray-100 text-gray-800'
+          } hover:scale-[1.04]`}
+        >
+          Lets connect &rarr;
+        </a>
       </div>
     </div>
   </div>
