@@ -20,7 +20,7 @@ const PORTFOLIO_DATA: PortfolioData = {
     {
       title: "Software Engineer Research Intern",
       company: "UCSD Health — Hojun Li Lab",
-      image: "/ucsd-logo.png",
+      image: "/images/ucsd-logo.png",
       period: "October 2024 - Present",
       description: "Engineered a scalable Python-based bioinformatics pipeline for parsing BAM alignment files from Oxford Nanopore’s Dorado platform, enabling efficient detection and quantification of A-to-I RNA editing events",
       skills: ["Bioinformatics", "Python", "Pandas", "R"]
@@ -28,7 +28,7 @@ const PORTFOLIO_DATA: PortfolioData = {
     {
       title: "Data Science Intern",
       company: "Lawrence Livermore National Laboratory",
-      image: "/llnl-logo.jpg",
+      image: "/images/llnl-logo.jpg",
       period: "July 2024 - August 2024",
       description: "Developed a production-ready machine learning pipeline for ventricular arrhythmia classification, benchmarking Logistic Regression, Random Forest, and deep learning models",
       skills: ["Python", "Pytorch", "scikit-learn", "Pandas"]
@@ -38,28 +38,28 @@ const PORTFOLIO_DATA: PortfolioData = {
     {
       title: "GuitarMax",
       description: "Learn guitar in realtime with computer visual assistance",
-      image: "src/assets/guitarmax.png",
+      image: "/images/guitarmax.png",
       tech: ["React", "Node.js", "MongoDB"],
       link: "https://github.com/Tofulati/guitarmax"
     },
     {
       title: "Stock-em",
       description: "Machine learning powered stock prediction and recommendation",
-      image: "src/assets/stock-em.png",
+      image: "/images/stock-em.png",
       tech: ["Python", "TensorFlow", "React"],
       link: "https://github.com/Tofulati/stock-em"
     },
     {
       title: "WebDevScan",
       description: "Battle and test your inspect element skills on simulated pages",
-      image: "src/assets/webdevscan.png",
+      image: "/images/webdevscan.png",
       tech: ["React", "TypeScript", "Storybook"],
       link: "https://github.com/Tofulati/webdevscav"
     },
     {
       title: "MewsiCat",
       description: "Cats meet music, meet social media app",
-      image: "src/assets/mewsicat.jpg",
+      image: "/images/mewsicat.jpg",
       tech: ["React", "TypeScript", "Storybook"],
       link: "https://github.com/MewsiCat/react-native-app"
     },
@@ -101,12 +101,12 @@ const PORTFOLIO_DATA: PortfolioData = {
     {
       name: "Albert Ho's Resume.pdf",
       type: "PDF Document",
-      link: "src/assets/AlbertHo.pdf"
+      link: "/documents/AlbertHo.pdf"
     }, 
     {
       name: "LLNL Final Poster",
       type: "JPG Image",
-      link: "src/assets/llnl-final.jpg"
+      link: "/documents/llnl-final.jpg"
     }
   ]
 };
