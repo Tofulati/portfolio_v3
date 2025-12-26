@@ -3,13 +3,13 @@ import { Home, Folder, MessageSquare, Moon, Sun, ExternalLink, Mail, FileText } 
 import { FaGithub, FaLinkedin, FaSpotify } from 'react-icons/fa'
 import type { PortfolioData } from './types';
 import Giscus from '@giscus/react';
+import { FaMagnifyingGlass } from 'react-icons/fa6';
 
 // Portfolio Data - Replace with your actual information
 const PORTFOLIO_DATA: PortfolioData = {
   name: "Albert Ho",
   tagline: "student | researcher | developer",
-  bio: "Always building and innovating new applications.",
-  current: "Currently studying BSc & MSc in Computer Science @ UC San Diego|",
+  current: "Currently studying Computer Science @ UC San Diego|",
   social: {
     github: "https://github.com/Tofulati",
     linkedin: "https://linkedin.com/in/albertho",
@@ -23,7 +23,8 @@ const PORTFOLIO_DATA: PortfolioData = {
       image: "/images/ucsd-logo.png",
       period: "October 2024 - Present",
       description: "Engineered a scalable Python-based bioinformatics pipeline for parsing BAM alignment files from Oxford Nanopore’s Dorado platform, enabling efficient detection and quantification of A-to-I RNA editing events",
-      skills: ["Bioinformatics", "Python", "Pandas", "R"]
+      skills: ["Bioinformatics", "Python", "Pandas", "R"],
+      current: true
     },
     {
       title: "Data Science Intern",
@@ -31,7 +32,8 @@ const PORTFOLIO_DATA: PortfolioData = {
       image: "/images/llnl-logo.jpg",
       period: "July 2024 - August 2024",
       description: "Developed a production-ready machine learning pipeline for ventricular arrhythmia classification, benchmarking Logistic Regression, Random Forest, and deep learning models",
-      skills: ["Python", "Pytorch", "scikit-learn", "Pandas"]
+      skills: ["Python", "Pytorch", "scikit-learn", "Pandas"],
+      current: false
     }
   ],
   featuredProjects: [
@@ -40,28 +42,32 @@ const PORTFOLIO_DATA: PortfolioData = {
       description: "Learn guitar in realtime with computer visual assistance",
       image: "/images/guitarmax.png",
       tech: ["React", "Node.js", "MongoDB"],
-      link: "https://github.com/Tofulati/guitarmax"
+      link: "https://github.com/Tofulati/guitarmax",
+      current: true
     },
     {
       title: "Stock-em",
       description: "Machine learning powered stock prediction and recommendation",
       image: "/images/stock-em.png",
       tech: ["Python", "TensorFlow", "React"],
-      link: "https://github.com/Tofulati/stock-em"
+      link: "https://github.com/Tofulati/stock-em",
+      current: true
     },
     {
       title: "WebDevScan",
       description: "Battle and test your inspect element skills on simulated pages",
       image: "/images/webdevscan.png",
       tech: ["React", "TypeScript", "Storybook"],
-      link: "https://github.com/Tofulati/webdevscav"
+      link: "https://github.com/Tofulati/webdevscav",
+      current: true
     },
     {
       title: "MewsiCat",
       description: "Cats meet music, meet social media app",
       image: "/images/mewsicat.jpg",
       tech: ["React", "TypeScript", "Storybook"],
-      link: "https://github.com/MewsiCat/react-native-app"
+      link: "https://github.com/MewsiCat/react-native-app",
+      current: false
     },
   ],
   allProjects: [
@@ -71,7 +77,8 @@ const PORTFOLIO_DATA: PortfolioData = {
       tech: ["Swift"],
       link: "https://github.com/Tofulati/guitarmax",
       dateAdded: "December 2025",
-      image: "/images/guitarmax.png"
+      image: "/images/guitarmax.png",
+      current: true
     },
     {
       name: "Stock-em",
@@ -79,7 +86,8 @@ const PORTFOLIO_DATA: PortfolioData = {
       tech: ["pytorch", "huggingface", "HTML/CSS/JS"],
       link: "https://github.com/Tofulati/stock-em",
       dateAdded: "October 2025 - Present",
-      image: "/images/stock-em.png"
+      image: "/images/stock-em.png",
+      current: true
     },
     {
       name: "WebdevScan",
@@ -87,7 +95,8 @@ const PORTFOLIO_DATA: PortfolioData = {
       tech: ["HTML/CSS/JS", "MongoDB"],
       link: "https://github.com/Tofulati/webdevscav",
       dateAdded: "October 2025 - Present",
-      image: "/images/webdevscan.png"
+      image: "/images/webdevscan.png",
+      current: true
     },
     {
       name: "Mewsicat",
@@ -95,7 +104,8 @@ const PORTFOLIO_DATA: PortfolioData = {
       tech: ["React Native", "Expo"],
       link: "https://github.com/MewsiCat/react-native-app",
       dateAdded: "November 2023 - May 2024",
-      image: "/images/mewsicat.jpg"
+      image: "/images/mewsicat.jpg",
+      current: false
     },
     {
       name: "Earth Equity",
@@ -103,10 +113,10 @@ const PORTFOLIO_DATA: PortfolioData = {
       tech: ["React", "Python"],
       link: "https://github.com/hajin-park/Earth-Equity",
       dateAdded: "October 2023",
-      image: "/images/earthequitylogo.svg"
+      image: "/images/earthequitylogo.svg",
+      current: false
     }
   ],
-
   documents: [
     {
       name: "Albert Ho's Resume.pdf",
@@ -114,18 +124,39 @@ const PORTFOLIO_DATA: PortfolioData = {
       link: "/documents/AlbertHo.pdf",
       dateAdded: "December 23, 2025",
       image: "/images/AlbertHo.jpg"
+    }
+  ],
+  research: [
+    {
+      name: "RNA Editing Detection Pipeline",
+      type: "Bioinformatics Research",
+      description: "Pipeline for A-to-I RNA editing",
+      link: "https://www.hlilab.org/",
+      dateAdded: "October 2024 - Present",
+      image: "/images/ucsd-logo.png",
+      current: true
     }, 
     {
-      name: "LLNL Final Poster",
-      type: "JPG Image",
+      name: "Computational Methods for Gene Expression Programs",
+      type: "Bioinformatics Research",
+      description: "Validation of starCAT using gene expression programs",
+      link: "/documents/Albert Ho - URS Hiestand - Final Product.pdf",
+      dateAdded: "June 2024 - August 2024",
+      image: "/images/ucsd-logo.png",
+      current: false
+    }, 
+    {
+      name: "Ventricular Arrhythmia Classification",
+      type: "Machine Learning Research",
+      description: "ML pipeline benchmarking for cardiac arrhythmia detection",
       link: "/documents/llnl-final.jpg",
-      dateAdded: "August 2024",
-      image: "/documents/llnl-final.jpg"
+      dateAdded: "July 2024 - August 2024",
+      image: "/images/llnl-logo.jpg",
+      current: false
     }
   ]
 };
 
-type Theme = 'system' | 'light' | 'dark';
 type TabId = 'home' | 'projects' | 'discussions';
 
 interface Tab {
@@ -136,31 +167,13 @@ interface Tab {
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabId>('home');
-  const [theme, setTheme] = useState<Theme>('system');
-  const [actualTheme, setActualTheme] = useState<'light' | 'dark'>('light');
-
-  useEffect(() => {
-    const updateTheme = () => {
-      if (theme === 'system') {
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        setActualTheme(prefersDark ? 'dark' : 'light');
-      } else {
-        setActualTheme(theme);
-      }
-    };
-
-    updateTheme();
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    mediaQuery.addEventListener('change', updateTheme);
-    return () => mediaQuery.removeEventListener('change', updateTheme);
-  }, [theme]);
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    // Initialize based on system preference
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  });
 
   const toggleTheme = () => {
-    setTheme(prev => {
-      if (prev === 'system') return 'light';
-      if (prev === 'light') return 'dark';
-      return 'system';
-    });
+    setTheme(prev => prev === 'light' ? 'dark' : 'light');
   };
 
   const tabs: Tab[] = [
@@ -169,7 +182,7 @@ const App: React.FC = () => {
     { id: 'discussions', label: 'Discussions', icon: MessageSquare }
   ];
 
-  const isDark = actualTheme === 'dark';
+  const isDark = theme === 'dark';
 
   return (
     <div className={`min-h-screen transition-colors duration-300 ${
@@ -198,7 +211,7 @@ const App: React.FC = () => {
               }`}
               title={`Theme: ${theme}`}
             >
-              {theme === 'dark' ? <Moon size={18} /> : theme === 'light' ? <Sun size={18} /> : '◐'}
+              {isDark ? <Moon size={18} /> : <Sun size={18} />}
             </button>
           </div>
 
@@ -320,12 +333,6 @@ const HomePage: React.FC<PageProps> = ({ isDark }) => (
                 className="w-4 h-4 lg:w-5 lg:h-5"
               />
             </div>
-
-            <p className={`text-base lg:text-lg max-w-2xl transition-colors duration-300 ${
-              isDark ? 'text-gray-300' : 'text-gray-700'
-            }`}>
-              {PORTFOLIO_DATA.bio}
-            </p>
 
             {/* Social Links */}
             <div className="flex gap-3 pt-2">
@@ -548,7 +555,6 @@ const ProjectsPage: React.FC<PageProps> = ({ isDark }) => (
     }`}>
       Albert's File Explorer
     </h1>
-
     <div className={`rounded-lg overflow-hidden transition-colors duration-300 border ${
       isDark ? 'bg-[#0d1117] border-[#30363d]' : 'bg-gray-50 border-gray-200'
     }`}>
@@ -567,7 +573,7 @@ const ProjectsPage: React.FC<PageProps> = ({ isDark }) => (
       </div>
 
       {/* File List */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+      <div className="grid sm:grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 p-4 sm:p-6">
         {PORTFOLIO_DATA.documents.map((doc, idx) => (
           <a
             key={idx}
@@ -575,7 +581,7 @@ const ProjectsPage: React.FC<PageProps> = ({ isDark }) => (
             target="_blank"
             rel="noopener noreferrer"
             className={`group rounded-lg overflow-hidden border transition-all duration-300 hover:scale-[1.01]
-              flex lg:block ${
+              flex sm:flex-row lg:flex-col ${
                 isDark
                   ? 'bg-[#0d1117] border-[#30363d] hover:border-[#484f58]'
                   : 'bg-white border-gray-200 hover:border-gray-300'
@@ -583,7 +589,7 @@ const ProjectsPage: React.FC<PageProps> = ({ isDark }) => (
           >
             {/* Preview */}
             {doc.image && (
-              <div className="w-24 h-24 lg:w-full lg:h-auto lg:aspect-video flex-shrink-0 overflow-hidden">
+              <div className="flex-shrink-0 w-24 h-24 sm:w-32 sm:h-32 overflow-hidden lg:w-full lg:h-auto lg:aspect-video">
                 <img
                   src={doc.image}
                   alt={doc.name}
@@ -593,35 +599,139 @@ const ProjectsPage: React.FC<PageProps> = ({ isDark }) => (
             )}
 
             {/* Content */}
-            <div className="p-3 lg:p-4 flex-1 space-y-1">
-              <div className="flex items-start justify-between gap-2">
-                <h3
-                  className={`font-medium text-sm lg:text-lg ${
-                    isDark ? 'text-white' : 'text-gray-900'
-                  }`}
-                >
-                  {doc.name}
-                </h3>
-                <ExternalLink
-                  size={20}
-                  className="text-gray-400 group-hover:text-gray-600 transition-colors"
-                />
+            <div className="flex-1 flex flex-col justify-between p-3 sm:p-4 ">
+              <div>
+                <div className="flex items-start justify-between gap-2 mb-1">
+                  <h3
+                    className={`font-medium text-sm lg:text-base line-clamp-2 ${
+                      isDark ? 'text-white' : 'text-gray-900'
+                    }`}
+                  >
+                    {doc.name}
+                  </h3>
+                  <ExternalLink
+                    size={16}
+                    className="text-gray-400 group-hover:text-gray-600 transition-colors flex-shrink-0"
+                  />
+                </div>
+
+                {doc.dateAdded && (
+                  <p className="text-xs text-gray-500 mb-2">
+                    {doc.dateAdded}
+                  </p>
+                )}
               </div>
 
-              {doc.dateAdded && (
-                <p className="text-xs text-gray-500">
-                  {doc.dateAdded}
-                </p>
-              )}
-
               <span
-                className={`inline-block mt-1 px-2 py-0.5 text-xs rounded ${
+                className={`inline-block self-start px-2 py-1 text-xs rounded ${
                   isDark
                     ? 'bg-[#21262d] text-gray-300'
                     : 'bg-gray-100 text-gray-700'
                 }`}
               >
                 {doc.type}
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    {/* Research Section */}
+    <div className={`rounded-lg overflow-hidden transition-colors duration-300 border ${
+      isDark ? 'bg-[#0d1117] border-[#30363d]' : 'bg-gray-50 border-gray-200'
+    }`}>
+      {/* Toolbar */}
+      <div className={`px-4 py-3 border-b transition-colors duration-300 ${
+        isDark ? 'border-[#30363d]' : 'border-gray-200'
+      }`}>
+        <div className="flex items-center gap-2">
+          <FaMagnifyingGlass size={20} className={isDark ? 'text-gray-500' : 'text-gray-600'} />
+          <span className={`font-medium ${
+            isDark ? 'text-white' : 'text-gray-900'
+          }`}>
+            Research
+          </span>
+        </div>
+      </div>
+
+      {/* Research List */}
+      <div className="grid sm:grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 p-4 sm:p-6">
+        {PORTFOLIO_DATA.research.map((item, idx) => (
+          <a
+            key={idx}
+            href={item.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`group rounded-lg overflow-hidden border transition-all duration-300 hover:scale-[1.01]
+              flex sm:flex-row lg:flex-col ${
+                isDark
+                  ? 'bg-[#0d1117] border-[#30363d] hover:border-[#484f58]'
+                  : 'bg-white border-gray-200 hover:border-gray-300'
+              }`}
+          >
+            {/* Preview */}
+            {item.image && (
+              <div className="flex-shrink-0 w-24 h-24 sm:w-32 sm:h-32 overflow-hidden lg:w-full lg:h-auto lg:aspect-video bg-gray-100 relative">
+                {/* Status Dot - Positioned on Image */}
+                <div className="absolute top-2 right-2 z-10">
+                  <div 
+                    className={`w-3 h-3 rounded-full ${
+                      item.current 
+                        ? 'bg-green-500 animate-pulse shadow-lg shadow-green-500/50' 
+                        : 'bg-gray-400 shadow-lg'
+                    }`}
+                    title={item.current ? 'Currently working on this' : 'Completed'}
+                  />
+                </div>
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="w-full h-full object-contain p-2 transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+            )}
+
+            {/* Content */}
+            <div className="flex-1 flex flex-col justify-between p-3 sm:p-4">
+              <div>
+                <div className="flex items-start justify-between gap-2 mb-1">
+                  <h3
+                    className={`font-medium text-sm lg:text-base line-clamp-2 ${
+                      isDark ? 'text-white' : 'text-gray-900'
+                    }`}
+                  >
+                    {item.name}
+                  </h3>
+                  <ExternalLink
+                    size={16}
+                    className="text-gray-400 group-hover:text-gray-600 transition-colors flex-shrink-0"
+                  />
+                </div>
+
+                {item.description && (
+                  <p className={`text-xs mb-1 line-clamp-2 ${
+                    isDark ? 'text-gray-400' : 'text-gray-600'
+                  }`}>
+                    {item.description}
+                  </p>
+                )}
+
+                {item.dateAdded && (
+                  <p className="text-xs text-gray-500 mb-2">
+                    {item.dateAdded}
+                  </p>
+                )}
+              </div>
+
+              <span
+                className={`inline-block self-start px-2 py-1 text-xs rounded ${
+                  isDark
+                    ? 'bg-[#21262d] text-gray-300'
+                    : 'bg-gray-100 text-gray-700'
+                }`}
+              >
+                {item.type}
               </span>
             </div>
           </a>
@@ -647,7 +757,7 @@ const ProjectsPage: React.FC<PageProps> = ({ isDark }) => (
       </div>
 
       {/* File List */}
-      <div className="grid sm:grid-cols-1 lg:grid-cols-3 gap-6 p-6">
+      <div className="grid sm:grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 p-4 sm:p-6">
         {PORTFOLIO_DATA.allProjects.map((project, idx) => (
           <a
             key={idx}
@@ -655,7 +765,7 @@ const ProjectsPage: React.FC<PageProps> = ({ isDark }) => (
             target="_blank"
             rel="noopener noreferrer"
             className={`group rounded-lg overflow-hidden border transition-all duration-300 hover:scale-[1.01]
-              flex sm:flex-row lg:flex-col items-stretch ${
+              flex sm:flex-row lg:flex-col ${
                 isDark
                   ? 'bg-[#0d1117] border-[#30363d] hover:border-[#484f58]'
                   : 'bg-white border-gray-200 hover:border-gray-300'
@@ -663,7 +773,18 @@ const ProjectsPage: React.FC<PageProps> = ({ isDark }) => (
           >
             {/* Image */}
             {project.image && (
-              <div className="flex-shrink-0 w-24 sm:w-24 sm:h-24 overflow-hidden lg:w-full lg:h-auto lg:aspect-video">
+              <div className="flex-shrink-0 w-24 h-24 sm:w-32 sm:h-32 overflow-hidden lg:w-full lg:h-auto lg:aspect-video relative">
+                {/* Status Dot - Positioned on Image */}
+                <div className="absolute top-2 right-2 z-10">
+                  <div 
+                    className={`w-3 h-3 rounded-full ${
+                      project.current 
+                        ? 'bg-green-500 animate-pulse shadow-lg shadow-green-500/50' 
+                        : 'bg-gray-400 shadow-lg'
+                    }`}
+                    title={project.current ? 'Currently working on this' : 'Completed'}
+                  />
+                </div>
                 <img
                   src={project.image}
                   alt={project.name}
@@ -673,30 +794,32 @@ const ProjectsPage: React.FC<PageProps> = ({ isDark }) => (
             )}
 
             {/* Content */}
-            <div className="flex-1 flex flex-col justify-center lg:p-4 sm:px-3 sm:py-2">
-              <div className="flex items-center justify-between">
-                <h3 className={`font-medium text-sm lg:text-lg ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                  {project.name}
-                </h3>
-                <ExternalLink
-                  size={20}
-                  className="text-gray-400 group-hover:text-gray-600 transition-colors"
-                />
+            <div className="flex-1 flex flex-col justify-between p-3 sm:p-4">
+              <div>
+                <div className="flex items-start justify-between gap-2 mb-1">
+                  <h3 className={`font-medium text-sm lg:text-base line-clamp-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                    {project.name}
+                  </h3>
+                  <ExternalLink
+                    size={16}
+                    className="text-gray-400 group-hover:text-gray-600 transition-colors flex-shrink-0"
+                  />
+                </div>
+
+                <p className={`text-xs mb-1 line-clamp-2 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                  {project.type}
+                </p>
+
+                {project.dateAdded && (
+                  <p className="text-xs text-gray-500 mb-2">{project.dateAdded}</p>
+                )}
               </div>
 
-              <p className={`text-xs lg:text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                {project.type}
-              </p>
-
-              {project.dateAdded && (
-                <p className="text-xs text-gray-500">{project.dateAdded}</p>
-              )}
-
-              <div className="flex flex-wrap gap-1 pt-1">
+              <div className="flex flex-wrap gap-1">
                 {project.tech.map((tech, i) => (
                   <span
                     key={i}
-                    className={`px-2 py-0.5 text-xs rounded ${
+                    className={`px-2 py-1 text-xs rounded ${
                       isDark ? 'bg-[#21262d] text-gray-300' : 'bg-gray-100 text-gray-700'
                     }`}
                   >

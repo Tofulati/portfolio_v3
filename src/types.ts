@@ -5,6 +5,7 @@ export interface Experience {
   period: string;
   description: string;
   skills: string[];
+  current: boolean;
 }
 
 export interface Project {
@@ -13,6 +14,7 @@ export interface Project {
   image: string;
   tech: string[];
   link: string;
+  current: boolean;
 }
 
 export interface SimpleProject {
@@ -22,6 +24,7 @@ export interface SimpleProject {
   link: string;
   dateAdded: string;
   image: string;
+  current: boolean;
 }
 
 export interface SimpleDoc {
@@ -32,10 +35,19 @@ export interface SimpleDoc {
   image: string;
 }
 
+export interface SimpleResearch {
+  name: string;
+  type: string;
+  description: string;
+  link: string;
+  dateAdded: string;
+  image: string;
+  current: boolean;
+}
+
 export interface PortfolioData {
   name: string;
   tagline: string;
-  bio: string;
   current: string,
   social: {
     github: string;
@@ -47,4 +59,5 @@ export interface PortfolioData {
   featuredProjects: Project[];
   allProjects: SimpleProject[];
   documents: SimpleDoc[];
+  research: SimpleResearch[];
 }
