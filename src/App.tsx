@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Home, Folder, MessageSquare, Moon, Sun, ExternalLink, Mail, FileText } from 'lucide-react';
 import { FaGithub, FaLinkedin, FaSpotify } from 'react-icons/fa'
 import type { PortfolioData } from './types';
