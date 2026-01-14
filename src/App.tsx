@@ -38,6 +38,14 @@ const PORTFOLIO_DATA: PortfolioData = {
   ],
   featuredProjects: [
     {
+      title: "Hall Pass",
+      description: "Reddit + Instagram + RateMyProf + Marketplace for Universities",
+      image: "/images/HallPass.png",
+      tech: ["ReactNative", "Firebase", "AWS s3", "Expo"],
+      link: "https://github.com/Tofulati/hallpass",
+      current: true
+    },
+    {
       title: "GuitarMax",
       description: "Learn guitar in realtime with computer visual assistance",
       image: "/images/guitarmax.png",
@@ -72,11 +80,20 @@ const PORTFOLIO_DATA: PortfolioData = {
   ],
   allProjects: [
     {
+      name: "Hall Pass",
+      type: "Everything Universities in One Social Media Mobile Application",
+      tech: ["ReactNative", "Firebase", "AWS s3", "Expo"],
+      link: "https://github.com/Tofulati/hallpass",
+      dateAdded: "January 2026 - Present",
+      image: "/images/HallPass.png",
+      current: true
+    },
+    {
       name: "GuitarMax",
       type: "Realtime Learning Guitar IOS Application",
       tech: ["Swift"],
       link: "https://github.com/Tofulati/guitarmax",
-      dateAdded: "December 2025",
+      dateAdded: "December 2025 - Present",
       image: "/images/guitarmax.png",
       current: true
     },
