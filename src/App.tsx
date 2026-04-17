@@ -38,6 +38,14 @@ const PORTFOLIO_DATA: PortfolioData = {
   ],
   featuredProjects: [
     {
+      title: "kumQAt",
+      description: "Natural Language → Automated QA Testing with Real-Time Execution and AI Validation",
+      image: "/images/kumQAt.png",
+      tech: ["Next.js", "FastAPI", "Python", "SQLModel", "Gemini", "SSE"],
+      link: "https://github.com/Tofulati/kumQAt",
+      current: false
+    },
+    {
       title: "Hall Pass",
       description: "Reddit + Instagram + RateMyProf + Marketplace for Universities",
       image: "/images/HallPass.png",
@@ -79,6 +87,15 @@ const PORTFOLIO_DATA: PortfolioData = {
     },
   ],
   allProjects: [
+    {
+      name: "kumQAt",
+      type: "AI-Powered QA Automation Platform for Web Applications",
+      tech: ["Next.js", "FastAPI", "Python", "SQLModel", "Gemini", "SSE"],
+      link: "https://github.com/Tofulati/kumQAt",
+      dateAdded: "April 2026",
+      image: "/images/kumQAt.png",
+      current: false
+    },
     {
       name: "Hall Pass",
       type: "Everything Universities in One Social Media Mobile Application",
@@ -139,7 +156,7 @@ const PORTFOLIO_DATA: PortfolioData = {
       name: "Albert Ho's Resume.pdf",
       type: "PDF Document",
       link: "/documents/AlbertHo.pdf",
-      dateAdded: "January 21, 2026",
+      dateAdded: "April 16, 2026",
       image: "/images/AlbertHo.jpg"
     }
   ],
