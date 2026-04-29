@@ -38,6 +38,22 @@ const PORTFOLIO_DATA: PortfolioData = {
   ],
   featuredProjects: [
     {
+      title: "Drug Routing",
+      description: "Path finding from Drugs -> Proteins -> Genes -> Diseases",
+      image: "/images/ucsd-logo.png",
+      tech: ["pytorch", "scikit-learn", "python"],
+      link: "https://github.com/Tofulati/drug_routing",
+      current: true
+    },
+    {
+      title: "WebDevScan",
+      description: "Battle and test your inspect element skills on simulated pages",
+      image: "/images/webdevscan.png",
+      tech: ["React", "TypeScript", "Storybook"],
+      link: "https://github.com/Tofulati/webdevscav",
+      current: true
+    },
+    {
       title: "kumQAt",
       description: "Natural Language → Automated QA Testing with Real-Time Execution and AI Validation",
       image: "/images/kumQAt.png",
@@ -59,7 +75,7 @@ const PORTFOLIO_DATA: PortfolioData = {
       image: "/images/guitarmax.png",
       tech: ["React", "Node.js", "MongoDB"],
       link: "https://github.com/Tofulati/guitarmax",
-      current: true
+      current: false
     },
     {
       title: "Stock-em",
@@ -67,14 +83,6 @@ const PORTFOLIO_DATA: PortfolioData = {
       image: "/images/stock-em.png",
       tech: ["Python", "TensorFlow", "React"],
       link: "https://github.com/Tofulati/stock-em",
-      current: true
-    },
-    {
-      title: "WebDevScan",
-      description: "Battle and test your inspect element skills on simulated pages",
-      image: "/images/webdevscan.png",
-      tech: ["React", "TypeScript", "Storybook"],
-      link: "https://github.com/Tofulati/webdevscav",
       current: true
     },
     {
@@ -87,6 +95,24 @@ const PORTFOLIO_DATA: PortfolioData = {
     },
   ],
   allProjects: [
+    {
+      name: "Drug Routing",
+      type: "Path finding from Drugs -> Proteins -> Genes -> Diseases",
+      tech: ["pytorch", "scikit-learn", "python"],
+      link: "https://github.com/Tofulati/drug_routing",
+      dateAdded: "April 2026",
+      image: "/images/ucsd-logo.png",
+      current: true
+    },
+    {
+      name: "WebdevScan",
+      type: "Train/Battle using inspect element",
+      tech: ["HTML/CSS/JS", "MongoDB"],
+      link: "https://github.com/Tofulati/webdevscav",
+      dateAdded: "October 2025 - Present",
+      image: "/images/webdevscan.png",
+      current: true
+    },
     {
       name: "kumQAt",
       type: "AI-Powered QA Automation Platform for Web Applications",
@@ -112,7 +138,7 @@ const PORTFOLIO_DATA: PortfolioData = {
       link: "https://github.com/Tofulati/guitarmax",
       dateAdded: "December 2025 - Present",
       image: "/images/guitarmax.png",
-      current: true
+      current: false
     },
     {
       name: "Stock-em",
@@ -121,16 +147,7 @@ const PORTFOLIO_DATA: PortfolioData = {
       link: "https://github.com/Tofulati/stock-em",
       dateAdded: "October 2025 - Present",
       image: "/images/stock-em.png",
-      current: true
-    },
-    {
-      name: "WebdevScan",
-      type: "Train/Battle using inspect element",
-      tech: ["HTML/CSS/JS", "MongoDB"],
-      link: "https://github.com/Tofulati/webdevscav",
-      dateAdded: "October 2025 - Present",
-      image: "/images/webdevscan.png",
-      current: true
+      current: false
     },
     {
       name: "Mewsicat",
