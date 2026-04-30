@@ -38,14 +38,6 @@ const PORTFOLIO_DATA: PortfolioData = {
   ],
   featuredProjects: [
     {
-      title: "Drug Routing",
-      description: "Path finding from Drugs -> Proteins -> Genes -> Diseases",
-      image: "/images/ucsd-logo.png",
-      tech: ["pytorch", "scikit-learn", "python"],
-      link: "https://github.com/Tofulati/drug_routing",
-      current: true
-    },
-    {
       title: "WebDevScan",
       description: "Battle and test your inspect element skills on simulated pages",
       image: "/images/webdevscan.png",
@@ -68,30 +60,6 @@ const PORTFOLIO_DATA: PortfolioData = {
       tech: ["ReactNative", "Firebase", "AWS s3", "Expo"],
       link: "https://github.com/Tofulati/hallpass",
       current: true
-    },
-    {
-      title: "GuitarMax",
-      description: "Learn guitar in realtime with computer visual assistance",
-      image: "/images/guitarmax.png",
-      tech: ["React", "Node.js", "MongoDB"],
-      link: "https://github.com/Tofulati/guitarmax",
-      current: false
-    },
-    {
-      title: "Stock-em",
-      description: "Machine learning powered stock prediction and recommendation",
-      image: "/images/stock-em.png",
-      tech: ["Python", "TensorFlow", "React"],
-      link: "https://github.com/Tofulati/stock-em",
-      current: true
-    },
-    {
-      title: "MewsiCat",
-      description: "Cats meet music, meet social media app",
-      image: "/images/mewsicat.jpg",
-      tech: ["React", "TypeScript", "Storybook"],
-      link: "https://github.com/MewsiCat/react-native-app",
-      current: false
     },
   ],
   allProjects: [
