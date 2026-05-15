@@ -401,6 +401,19 @@ const HomePage: React.FC<PageProps> = ({ isDark }) => (
               >
                 <Mail size={20} className="lg:w-6 lg:h-6" />
               </a>
+              <a 
+                href="/documents/AlbertHo.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  isDark
+                    ? 'bg-blue-600 hover:bg-blue-500 text-white'
+                    : 'bg-gray-900 hover:bg-gray-700 text-white'
+                }`}
+              >
+                <FileText size={16} />
+                Resume
+              </a>
             </div>
           </div>
         </div>
