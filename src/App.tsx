@@ -1,8 +1,16 @@
 import React, { useState } from 'react';
-import { Home, Folder, MessageSquare, Moon, Sun, ExternalLink, Mail, FileText } from 'lucide-react';
-import { FaGithub, FaLinkedin, FaSpotify } from 'react-icons/fa'
-import type { PortfolioData } from './types';
-import Giscus from '@giscus/react';
+import { Home, Folder, BookOpen, Moon, Sun, ExternalLink, Mail, FileText, LayoutGrid, ArrowLeft, ChevronLeft, ChevronRight, RotateCw, Lock } from 'lucide-react';
+import { FaGithub, FaLinkedin } from 'react-icons/fa'
+import type { PortfolioData, InterestPin, BlogPost } from './types';
+import { interestPins } from './data/interests';
+import { blogPosts } from './data/blog';
+import { useInstagramEmbeds } from './hooks/useInstagramEmbeds';
+import {
+  instagramEmbedSrc,
+  isInstagramPostUrl,
+  normalizeInstagramPermalink,
+} from './lib/instagram';
+import Markdown from 'react-markdown';
 import { FaMagnifyingGlass } from 'react-icons/fa6';
 
 // Portfolio Data - Replace with your actual information
@@ -13,10 +21,18 @@ const PORTFOLIO_DATA: PortfolioData = {
   social: {
     github: "https://github.com/Tofulati",
     linkedin: "https://linkedin.com/in/albertho",
-    spotify: "https://open.spotify.com/user/21cyyxrln6pmyazeu3dc2stfi?si=48ba0237113742d0",
     email: "albmtho@gmail.com"
   },
   experiences: [
+    {
+      title: "Frontend Engineer Intern",
+      company: "Cadent",
+      image: "/images/cadent.svg",
+      period: "June 2026 - Present",
+      description: "In progress...",
+      skills: ["React"],
+      current: true
+    },
     {
       title: "Software Engineer Research Intern",
       company: "UCSD Health — Hojun Li Lab",
@@ -173,10 +189,10 @@ const PORTFOLIO_DATA: PortfolioData = {
       image: "/images/llnl-logo.jpg",
       current: false
     }
-  ]
+  ],
 };
 
-type TabId = 'home' | 'projects' | 'discussions';
+type TabId = 'home' | 'projects' | 'interests' | 'blog';
 
 interface Tab {
   id: TabId;
@@ -198,71 +214,91 @@ const App: React.FC = () => {
   const tabs: Tab[] = [
     { id: 'home', label: 'Home', icon: Home },
     { id: 'projects', label: 'Projects & Files', icon: Folder },
-    { id: 'discussions', label: 'Discussions', icon: MessageSquare }
+    { id: 'interests', label: 'Board', icon: LayoutGrid },
+    { id: 'blog', label: 'Blog', icon: BookOpen }
   ];
 
   const isDark = theme === 'dark';
 
+  const tabUrl: Record<TabId, string> = {
+    home: 'albertho.dev',
+    projects: 'albertho.dev/projects',
+    interests: 'albertho.dev/board',
+    blog: 'albertho.dev/blog',
+  };
+
   return (
-    <div className={`min-h-screen transition-colors duration-300 ${
-      isDark ? 'bg-[#0d1117]' : 'bg-gray-100'
-    } p-4 sm:p-8`}>
-      <div className={`w-full max-w-6xl mx-auto rounded-xl shadow-2xl transition-all duration-300 border ${
-        isDark ? 'bg-[#0d1117] border-[#30363d]' : 'bg-white border-gray-300'
-      }`}>
-        {/* Safari Browser Chrome */}
-        <div className={`transition-colors duration-300 ${
-          isDark ? 'bg-[#161b22] border-[#30363d]' : 'bg-gray-200 border-gray-300'
-        } border-b px-4 py-3`}>
-          {/* Traffic Lights & Controls */}
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-red-500"></div>
-              <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-              <div className="w-3 h-3 rounded-full bg-green-500"></div>
+    <div
+      className={`browser-backdrop min-h-screen transition-colors duration-300 p-4 sm:p-8 ${
+        isDark ? 'theme-dark' : 'theme-light'
+      }`}
+    >
+      <div className="browser-backdrop-wallpaper" aria-hidden />
+      <div className="browser-window relative z-10 w-full max-w-6xl mx-auto rounded-xl transition-all duration-300 border overflow-hidden">
+        {/* Browser chrome + tab strip */}
+        <div className="browser-chrome transition-colors duration-300">
+          {/* Title bar */}
+          <div className="flex items-center justify-between px-4 pt-3 pb-2">
+            <div className="browser-traffic-lights flex items-center gap-2">
+              <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
+              <div className="w-3 h-3 rounded-full bg-[#febc2e]" />
+              <div className="w-3 h-3 rounded-full bg-[#28c840]" />
             </div>
             <button
               onClick={toggleTheme}
-              className={`p-2 rounded-lg transition-all duration-200 ${
-                isDark 
-                  ? 'bg-[#21262d] hover:bg-[#30363d] text-yellow-400' 
-                  : 'bg-white hover:bg-gray-100 text-gray-700'
-              }`}
+              type="button"
+              className="browser-theme-toggle p-1.5 rounded-md transition-all duration-200"
               title={`Theme: ${theme}`}
             >
-              {isDark ? <Moon size={18} /> : <Sun size={18} />}
+              {isDark ? <Moon size={16} /> : <Sun size={16} />}
             </button>
           </div>
 
-          {/* Address Bar */}
-          <div className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors duration-300 ${
-            isDark ? 'bg-[#0d1117] text-gray-400' : 'bg-white text-gray-600'
-          }`}>
-            <span className="text-sm">🔒</span>
-            <span className="text-sm font-medium">Albert Ho's Webpage &gt;&gt; {activeTab}</span>
+          {/* Toolbar: nav + address bar */}
+          <div className="flex items-center gap-2 px-4 pb-2">
+            <div className="flex items-center gap-0.5 shrink-0">
+              {[
+                { Icon: ChevronLeft, label: 'Back' },
+                { Icon: ChevronRight, label: 'Forward' },
+                { Icon: RotateCw, label: 'Reload' },
+              ].map(({ Icon, label }) => (
+                <button
+                  key={label}
+                  type="button"
+                  aria-label={label}
+                  className="browser-nav-btn p-1.5 rounded-md transition-colors"
+                >
+                  <Icon size={15} strokeWidth={2} />
+                </button>
+              ))}
+            </div>
+
+            <div className="browser-address-bar flex flex-1 min-w-0 items-center gap-2 rounded-full px-3.5 py-1.5 text-sm transition-colors duration-300">
+              <Lock size={12} className="browser-lock shrink-0" strokeWidth={2.5} />
+              <span className="truncate font-normal tracking-tight opacity-90">
+                {tabUrl[activeTab]}
+              </span>
+            </div>
           </div>
 
-          {/* Tabs */}
-          <div className="flex gap-1 mt-3 overflow-x-auto">
-            {tabs.map(tab => {
+          {/* Tab strip */}
+          <div className="browser-tab-strip flex items-end gap-0.5 px-3 overflow-x-auto">
+            {tabs.map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
               return (
                 <button
                   key={tab.id}
+                  type="button"
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-t-lg transition-all duration-200 text-sm font-medium whitespace-nowrap ${
-                    isActive
-                      ? isDark
-                        ? 'bg-[#0d1117] text-white'
-                        : 'bg-white text-gray-900'
-                      : isDark
-                        ? 'bg-[#0d1117]/50 text-gray-500 hover:bg-[#0d1117]/70'
-                        : 'bg-gray-100 text-gray-600 hover:bg-gray-50'
+                  className={`browser-tab group relative flex items-center gap-2 max-w-[11rem] sm:max-w-[13rem] px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium whitespace-nowrap transition-all duration-200 rounded-t-lg -mb-px ${
+                    isActive ? 'browser-tab-active z-10' : 'browser-tab-inactive'
                   }`}
                 >
-                  <Icon size={16} />
-                  {tab.label}
+                  <span className="shrink-0 opacity-70">
+                    <Icon size={14} />
+                  </span>
+                  <span className="truncate">{tab.label}</span>
                 </button>
               );
             })}
@@ -270,18 +306,15 @@ const App: React.FC = () => {
         </div>
 
         {/* Content Area */}
-        <div
-          className={`transition-colors duration-300 ${
-            isDark ? 'bg-[#0d1117]' : 'bg-white'
-          }`}
-        >
+        <div className="browser-page transition-colors duration-300">
           <div className="p-6 sm:p-10">
-            {activeTab === 'home' && <HomePage isDark={isDark} />}
-            {activeTab === 'projects' && <ProjectsPage isDark={isDark} />}
-            {activeTab === 'discussions' && <DiscussionsPage isDark={isDark} />}
+            {activeTab === 'home' && <HomePage />}
+            {activeTab === 'projects' && <ProjectsPage />}
+            {activeTab === 'interests' && <InterestsPage isDark={isDark} />}
+            {activeTab === 'blog' && <BlogPage />}
           </div>
 
-          <Footer isDark={isDark} />
+          <Footer />
         </div>
       </div>
     </div>
@@ -289,15 +322,13 @@ const App: React.FC = () => {
 };
 
 interface PageProps {
-  isDark: boolean;
+  isDark?: boolean;
 }
 
-const HomePage: React.FC<PageProps> = ({ isDark }) => (
-  <div className="space-y-12 animate-fadeIn">
+const HomePage: React.FC<PageProps> = () => (
+  <div className="space-y-8 animate-fadeIn">
     {/* Hero Section */}
-    <div className={`rounded-xl overflow-hidden border transition-colors duration-300 ${
-      isDark ? 'bg-[#0d1117] border-[#30363d]' : 'bg-white border-gray-200'
-    }`}>
+    <div className="rounded-xl overflow-hidden border transition-colors duration-300 t-card">
       {/* Banner Image */}
       <div 
         className="relative h-48 sm:h-64 w-full"
@@ -316,9 +347,7 @@ const HomePage: React.FC<PageProps> = ({ isDark }) => (
         <div className="flex flex-col sm:flex-row gap-6 sm:gap-8 lg:gap-10 sm:items-start">
           {/* Profile Picture - Overlapping Banner */}
           <div className="relative -mt-16 sm:-mt-20 lg:-mt-24 flex-shrink-0">
-            <div className={`w-32 h-32 sm:w-40 sm:h-40 lg:w-52 lg:h-52 rounded-full overflow-hidden border-4 ${
-              isDark ? 'border-[#0d1117]' : 'border-white'
-            } shadow-xl`}>
+            <div className="w-32 h-32 sm:w-40 sm:h-40 lg:w-52 lg:h-52 rounded-full overflow-hidden border-4 t-profile-ring shadow-xl">
               <img
                 src="/images/profile.jpg"
                 alt="Albert Ho"
@@ -330,21 +359,15 @@ const HomePage: React.FC<PageProps> = ({ isDark }) => (
           {/* Info Section */}
           <div className="flex-1 space-y-3 lg:space-y-4 sm:-mt-16 lg:-mt-20">
             <div>
-              <h1 className={`text-3xl sm:text-4xl lg:text-5xl font-bold transition-colors duration-300 ${
-                isDark ? 'text-white' : 'text-gray-900'
-              }`}>
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold transition-colors duration-300 t-text">
                 {PORTFOLIO_DATA.name}
               </h1>
-              <p className={`text-lg sm:text-xl lg:text-2xl mt-1 font-medium transition-colors duration-300 ${
-                isDark ? 'text-gray-300' : 'text-gray-800'
-              }`}>
+              <p className="text-lg sm:text-xl lg:text-2xl mt-1 font-medium transition-colors duration-300 t-text-secondary">
                 {PORTFOLIO_DATA.tagline}
               </p>
             </div>
 
-            <div className={`flex items-center gap-2 text-sm lg:text-base transition-colors duration-300 ${
-              isDark ? 'text-gray-400' : 'text-gray-700'
-            }`}>
+            <div className="flex items-center gap-2 text-sm lg:text-base transition-colors duration-300 t-text-muted">
               <span>{PORTFOLIO_DATA.current.split('|')[0]}</span>
               <img 
                 src="/images/ucsd-logo.png" 
@@ -354,16 +377,12 @@ const HomePage: React.FC<PageProps> = ({ isDark }) => (
             </div>
 
             {/* Social Links */}
-            <div className="flex gap-3 pt-2">
+            <div className="flex flex-wrap gap-2 sm:gap-3 pt-2">
               <a 
                 href={PORTFOLIO_DATA.social.github} 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className={`p-2.5 lg:p-3 rounded-lg transition-all duration-200 ${
-                  isDark 
-                    ? 'bg-[#21262d] hover:bg-[#30363d] text-gray-300' 
-                    : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
-                } hover:shadow-[0_0_20px_rgba(255,255,255,0.3)]`}
+                className="p-2.5 lg:p-3 rounded-lg t-btn-ghost"
               >
                 <FaGithub size={20} className="lg:w-6 lg:h-6" />
               </a>
@@ -371,33 +390,13 @@ const HomePage: React.FC<PageProps> = ({ isDark }) => (
                 href={PORTFOLIO_DATA.social.linkedin} 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className={`p-2.5 lg:p-3 rounded-lg transition-all duration-200 ${
-                  isDark 
-                    ? 'bg-[#21262d] hover:bg-[#30363d] text-gray-300' 
-                    : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
-                } hover:shadow-[0_0_20px_rgba(10,102,194,0.5)]`}
+                className="p-2.5 lg:p-3 rounded-lg t-btn-ghost"
               >
                 <FaLinkedin size={20} className="lg:w-6 lg:h-6" />
               </a>
               <a 
-                href={PORTFOLIO_DATA.social.spotify} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className={`p-2.5 lg:p-3 rounded-lg transition-all duration-200 ${
-                  isDark 
-                    ? 'bg-[#21262d] hover:bg-[#30363d] text-gray-300' 
-                    : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
-                } hover:shadow-[0_0_20px_rgba(30,215,96,0.5)]`}
-              >
-                <FaSpotify size={20} className="lg:w-6 lg:h-6" />
-              </a>
-              <a 
                 href={`mailto:${PORTFOLIO_DATA.social.email}`} 
-                className={`p-2.5 lg:p-3 rounded-lg transition-all duration-200 ${
-                  isDark 
-                    ? 'bg-[#21262d] hover:bg-[#30363d] text-gray-300' 
-                    : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
-                } hover:shadow-[0_0_20px_rgba(234,67,53,0.5)]`}
+                className="p-2.5 lg:p-3 rounded-lg t-btn-ghost"
               >
                 <Mail size={20} className="lg:w-6 lg:h-6" />
               </a>
@@ -405,14 +404,11 @@ const HomePage: React.FC<PageProps> = ({ isDark }) => (
                 href="/documents/AlbertHo.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                  isDark
-                    ? 'bg-blue-600 hover:bg-blue-500 text-white'
-                    : 'bg-gray-900 hover:bg-gray-700 text-white'
-                }`}
+                aria-label="Resume"
+                className="flex items-center gap-2 p-2.5 sm:px-4 sm:py-2 rounded-lg text-sm font-medium transition-all duration-200 shrink-0 t-btn-primary"
               >
-                <FileText size={16} />
-                Resume
+                <FileText size={16} className="shrink-0" />
+                <span className="hidden sm:inline">Resume</span>
               </a>
             </div>
           </div>
@@ -422,55 +418,44 @@ const HomePage: React.FC<PageProps> = ({ isDark }) => (
 
     {/* Experience Section */}
     <div>
-      <h2 className={`text-3xl font-bold mb-6 transition-colors duration-300 ${
-        isDark ? 'text-white' : 'text-gray-900'
-      }`}>
+      <h2 className="text-2xl font-bold mb-4 transition-colors duration-300 t-text">
         Experiences
       </h2>
-      <div className="space-y-4">
+      <div className="space-y-3">
         {PORTFOLIO_DATA.experiences.map((exp, idx) => (
-          <div key={idx} className={`p-6 rounded-lg transition-all duration-300 border ${
-            isDark ? 'bg-[#0d1117] border-[#30363d] hover:border-[#484f58]' : 'bg-gray-50 border-gray-200 hover:border-gray-300'
-          }`}>
-            <div className="flex gap-4">
-              {/* Company Logo Placeholder */}
-              <div className={`w-12 h-12 rounded flex-shrink-0 flex items-center justify-center text-lg font-bold transition-colors duration-300 ${
-                isDark ? 'bg-[#21262d] text-gray-400' : 'bg-gray-200 text-gray-600'
-              }`}>
-                <img src={exp.image} alt={exp.title}></img>
+          <div key={idx} className="p-4 sm:p-5 rounded-lg transition-all duration-300 border t-card-muted">
+            <div className="flex gap-3 sm:gap-4">
+              {/* Company Logo */}
+              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-md flex-shrink-0 flex items-center justify-center overflow-hidden border t-chip p-1.5">
+                <img src={exp.image} alt={exp.title} className="w-full h-full object-contain" />
               </div>
               
               {/* Experience Details */}
-              <div className="flex-1 min-w-0">
-                <h3 className={`text-xl font-semibold transition-colors duration-300 ${
-                  isDark ? 'text-white' : 'text-gray-900'
-                }`}>
+              <div className="flex-1 min-w-0 space-y-1">
+                <h3 className="text-lg font-semibold leading-tight transition-colors duration-300 t-text">
                   {exp.title}
                 </h3>
-                <p className={`text-base transition-colors duration-300 ${
-                  isDark ? 'text-gray-400' : 'text-gray-700'
-                }`}>
+                <p className="text-sm transition-colors duration-300 t-text-muted">
                   {exp.company}
                 </p>
-                <p className={`text-sm mt-1 transition-colors duration-300 ${
-                  isDark ? 'text-gray-500' : 'text-gray-600'
-                }`}>
+                <p className="text-xs transition-colors duration-300 t-text-subtle">
                   {exp.period}
                 </p>
-                <p className={`mt-3 transition-colors duration-300 ${
-                  isDark ? 'text-gray-400' : 'text-gray-600'
-                }`}>
+                <p className="text-sm leading-relaxed pt-1 transition-colors duration-300 t-text-muted">
                   {exp.description}
                 </p>
-                <div className="flex flex-wrap gap-2 mt-3">
-                  {exp.skills.map((skill, i) => (
-                    <span key={i} className={`px-3 py-1 text-sm rounded-full transition-colors duration-300 ${
-                      isDark ? 'bg-[#21262d] text-gray-300' : 'bg-gray-200 text-gray-700'
-                    }`}>
-                      {skill}
-                    </span>
-                  ))}
-                </div>
+                {exp.skills.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 pt-2">
+                    {exp.skills.map((skill, i) => (
+                      <span
+                        key={i}
+                        className="t-chip px-2.5 py-0.5 text-xs rounded-full transition-colors duration-300"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -480,38 +465,28 @@ const HomePage: React.FC<PageProps> = ({ isDark }) => (
 
     {/* Featured Projects */}
     <div>
-      <h2 className={`text-3xl font-bold mb-6 transition-colors duration-300 ${
-        isDark ? 'text-white' : 'text-gray-900'
-      }`}>
+      <h2 className="text-3xl font-bold mb-6 transition-colors duration-300 t-text">
         Featured Projects
       </h2>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {PORTFOLIO_DATA.featuredProjects.map((project, idx) => (
           <a key={idx} href={project.link} target="_blank" rel="noopener noreferrer"
-             className={`group rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 border ${
-               isDark ? 'bg-[#0d1117] border-[#30363d] hover:border-[#484f58]' : 'bg-gray-50 border-gray-200 hover:border-gray-300'
-             }`}>
+             className="group rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 border t-card-muted">
             <div className="aspect-video overflow-hidden">
               <img src={project.image} alt={project.title} 
                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
             </div>
             <div className="p-4">
-              <h3 className={`text-lg font-semibold mb-2 flex items-center gap-2 transition-colors duration-300 ${
-                isDark ? 'text-white' : 'text-gray-900'
-              }`}>
+              <h3 className="text-lg font-semibold mb-2 flex items-center gap-2 transition-colors duration-300 t-text">
                 {project.title}
                 <ExternalLink size={16} className="opacity-0 group-hover:opacity-100 transition-opacity" />
               </h3>
-              <p className={`text-sm mb-3 transition-colors duration-300 ${
-                isDark ? 'text-gray-500' : 'text-gray-600'
-              }`}>
+              <p className="text-sm mb-3 transition-colors duration-300 t-text-subtle">
                 {project.description}
               </p>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-1.5">
                 {project.tech.map((tech, i) => (
-                  <span key={i} className={`px-2 py-1 text-xs rounded transition-colors duration-300 ${
-                    isDark ? 'bg-[#21262d] text-gray-300' : 'bg-gray-200 text-gray-700'
-                  }`}>
+                  <span key={i} className="t-chip px-2.5 py-0.5 text-xs rounded-full transition-colors duration-300">
                     {tech}
                   </span>
                 ))}
@@ -523,82 +498,35 @@ const HomePage: React.FC<PageProps> = ({ isDark }) => (
     </div>
 
     {/* Contact Section */}
-    <div
-      className={`rounded-xl p-8 border transition-all duration-300 text-center relative overflow-hidden ${
-        isDark
-          ? 'bg-[#0d1117] border-[#30363d] shadow-[0_0_0_1px_rgba(255,255,255,0.02)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.6)]'
-          : 'bg-gray-50 border-gray-200 shadow-sm hover:shadow-lg'
-      }`}
-    >
-      {/* Animated Blue Waves Background */}
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute w-full h-full">
-          <div className="absolute top-0 left-0 w-[200%] h-full bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-30 animate-[wave1_8s_ease-in-out_infinite]"></div>
-          <div className="absolute top-0 left-0 w-[200%] h-full bg-gradient-to-r from-transparent via-blue-400 to-transparent opacity-40 animate-[wave2_10s_ease-in-out_infinite]"></div>
-          <div className="absolute top-0 left-0 w-[200%] h-full bg-gradient-to-r from-transparent via-blue-600 to-transparent opacity-30 animate-[wave3_12s_ease-in-out_infinite]"></div>
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="relative z-10">
-        <h2
-          className={`text-2xl font-semibold mb-2 ${
-            isDark ? 'text-white' : 'text-gray-900'
-          }`}
-        >
-          Get in touch
-        </h2>
-
-        <p
-          className={`mb-6 max-w-md mx-auto ${
-            isDark ? 'text-gray-400' : 'text-gray-600'
-          }`}
-        >
-          Interested in collaborating, research, or just chatting?
-        </p>
-
-        <div className="flex justify-center">
-          <a
-            href={`mailto:${PORTFOLIO_DATA.social.email}`}
-            className={`group relative px-6 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 overflow-hidden ${
-              isDark
-                ? 'bg-[#21262d] hover:bg-blue-600 text-white'
-                : 'bg-white hover:bg-blue-500 text-gray-800 hover:text-white'
-            } hover:scale-[1.04]`}
-          >
-            <Mail size={18} className="transition-all duration-300 group-hover:translate-x-[200px] group-hover:opacity-0" />
-            <Mail size={18} className="absolute left-6 transition-all duration-500 translate-x-[-200px] opacity-0 group-hover:translate-x-0 group-hover:opacity-100 z-10" />
-            <span className="transition-opacity duration-300 group-hover:opacity-0">Lets connect</span>
-            <span className="absolute inset-0 flex items-center justify-center transition-all duration-300 opacity-0 group-hover:opacity-100">
-              Send mail
-            </span>
-            <span className="inline-block transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-0">&rarr;</span>
-          </a>
-        </div>
-      </div>
+    <div className="rounded-xl p-6 sm:p-8 border text-center transition-colors duration-300 t-featured">
+      <h2 className="text-xl font-semibold mb-1.5 transition-colors duration-300 t-text">
+        Get in touch
+      </h2>
+      <p className="text-sm mb-5 max-w-sm mx-auto transition-colors duration-300 t-text-muted">
+        Open to collaborating, research, or a quick chat.
+      </p>
+      <a
+        href={`mailto:${PORTFOLIO_DATA.social.email}`}
+        className="inline-flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-medium transition-colors duration-200 t-btn-outline"
+      >
+        <Mail size={16} />
+        Let&apos;s connect
+      </a>
     </div>
   </div>
 );
 
-const ProjectsPage: React.FC<PageProps> = ({ isDark }) => (
+const ProjectsPage: React.FC<PageProps> = () => (
   <div className="space-y-8 animate-fadeIn">
-    <h1 className={`text-4xl font-bold transition-colors duration-300 ${
-      isDark ? 'text-white' : 'text-gray-900'
-    }`}>
+    <h1 className="text-4xl font-bold transition-colors duration-300 t-text">
       Albert's File Explorer
     </h1>
-    <div className={`rounded-lg overflow-hidden transition-colors duration-300 border ${
-      isDark ? 'bg-[#0d1117] border-[#30363d]' : 'bg-gray-50 border-gray-200'
-    }`}>
+    <div className="rounded-lg overflow-hidden transition-colors duration-300 border t-section">
       {/* Toolbar */}
-      <div className={`px-4 py-3 border-b transition-colors duration-300 ${
-        isDark ? 'border-[#30363d]' : 'border-gray-200'
-      }`}>
+      <div className="px-4 py-3 border-b transition-colors duration-300 t-section-header">
         <div className="flex items-center gap-2">
-          <FileText size={20} className={isDark ? 'text-gray-500' : 'text-gray-600'} />
-          <span className={`font-medium ${
-            isDark ? 'text-white' : 'text-gray-900'
-          }`}>
+          <FileText size={20} className="t-icon-muted" />
+          <span className="font-medium t-text">
             Documents
           </span>
         </div>
@@ -612,12 +540,7 @@ const ProjectsPage: React.FC<PageProps> = ({ isDark }) => (
             href={doc.link}
             target="_blank"
             rel="noopener noreferrer"
-            className={`group rounded-lg overflow-hidden border transition-all duration-300 hover:scale-[1.01]
-              flex sm:flex-row lg:flex-col ${
-                isDark
-                  ? 'bg-[#0d1117] border-[#30363d] hover:border-[#484f58]'
-                  : 'bg-white border-gray-200 hover:border-gray-300'
-              }`}
+            className="group rounded-lg overflow-hidden border transition-all duration-300 hover:scale-[1.01] flex sm:flex-row lg:flex-col t-list-item"
           >
             {/* Preview */}
             {doc.image && (
@@ -634,32 +557,24 @@ const ProjectsPage: React.FC<PageProps> = ({ isDark }) => (
             <div className="flex-1 flex flex-col justify-between p-3 sm:p-4 ">
               <div>
                 <div className="flex items-start justify-between gap-2 mb-1">
-                  <h3
-                    className={`font-medium text-sm lg:text-base line-clamp-2 ${
-                      isDark ? 'text-white' : 'text-gray-900'
-                    }`}
-                  >
+                  <h3 className="font-medium text-sm lg:text-base line-clamp-2 t-text">
                     {doc.name}
                   </h3>
                   <ExternalLink
                     size={16}
-                    className="text-gray-400 group-hover:text-gray-600 transition-colors flex-shrink-0"
+                    className="t-icon-link flex-shrink-0"
                   />
                 </div>
 
                 {doc.dateAdded && (
-                  <p className="text-xs text-gray-500 mb-2">
+                  <p className="text-xs t-text-subtle mb-2">
                     {doc.dateAdded}
                   </p>
                 )}
               </div>
 
               <span
-                className={`inline-block self-start px-2 py-1 text-xs rounded ${
-                  isDark
-                    ? 'bg-[#21262d] text-gray-300'
-                    : 'bg-gray-100 text-gray-700'
-                }`}
+                className="inline-block self-start t-chip px-2 py-1 text-xs rounded"
               >
                 {doc.type}
               </span>
@@ -670,18 +585,12 @@ const ProjectsPage: React.FC<PageProps> = ({ isDark }) => (
     </div>
 
     {/* Research Section */}
-    <div className={`rounded-lg overflow-hidden transition-colors duration-300 border ${
-      isDark ? 'bg-[#0d1117] border-[#30363d]' : 'bg-gray-50 border-gray-200'
-    }`}>
+    <div className="rounded-lg overflow-hidden transition-colors duration-300 border t-section">
       {/* Toolbar */}
-      <div className={`px-4 py-3 border-b transition-colors duration-300 ${
-        isDark ? 'border-[#30363d]' : 'border-gray-200'
-      }`}>
+      <div className="px-4 py-3 border-b transition-colors duration-300 t-section-header">
         <div className="flex items-center gap-2">
-          <FaMagnifyingGlass size={20} className={isDark ? 'text-gray-500' : 'text-gray-600'} />
-          <span className={`font-medium ${
-            isDark ? 'text-white' : 'text-gray-900'
-          }`}>
+          <FaMagnifyingGlass size={20} className="t-icon-muted" />
+          <span className="font-medium t-text">
             Research
           </span>
         </div>
@@ -695,23 +604,18 @@ const ProjectsPage: React.FC<PageProps> = ({ isDark }) => (
             href={item.link}
             target="_blank"
             rel="noopener noreferrer"
-            className={`group rounded-lg overflow-hidden border transition-all duration-300 hover:scale-[1.01]
-              flex sm:flex-row lg:flex-col ${
-                isDark
-                  ? 'bg-[#0d1117] border-[#30363d] hover:border-[#484f58]'
-                  : 'bg-white border-gray-200 hover:border-gray-300'
-              }`}
+            className="group rounded-lg overflow-hidden border transition-all duration-300 hover:scale-[1.01] flex sm:flex-row lg:flex-col t-list-item"
           >
             {/* Preview */}
             {item.image && (
-              <div className="flex-shrink-0 w-24 h-24 sm:w-32 sm:h-32 overflow-hidden lg:w-full lg:h-auto lg:aspect-video bg-gray-100 relative">
+              <div className="flex-shrink-0 w-24 h-24 sm:w-32 sm:h-32 overflow-hidden lg:w-full lg:h-auto lg:aspect-video t-media-placeholder relative">
                 {/* Status Dot - Positioned on Image */}
                 <div className="absolute top-2 right-2 z-10">
                   <div 
                     className={`w-3 h-3 rounded-full ${
-                      item.current 
-                        ? 'bg-green-500 animate-pulse shadow-lg shadow-green-500/50' 
-                        : 'bg-gray-400 shadow-lg'
+                      item.current
+                        ? 't-status-dot-active animate-pulse'
+                        : 't-status-dot'
                     }`}
                     title={item.current ? 'Currently working on this' : 'Completed'}
                   />
@@ -728,40 +632,30 @@ const ProjectsPage: React.FC<PageProps> = ({ isDark }) => (
             <div className="flex-1 flex flex-col justify-between p-3 sm:p-4">
               <div>
                 <div className="flex items-start justify-between gap-2 mb-1">
-                  <h3
-                    className={`font-medium text-sm lg:text-base line-clamp-2 ${
-                      isDark ? 'text-white' : 'text-gray-900'
-                    }`}
-                  >
+                  <h3 className="font-medium text-sm lg:text-base line-clamp-2 t-text">
                     {item.name}
                   </h3>
                   <ExternalLink
                     size={16}
-                    className="text-gray-400 group-hover:text-gray-600 transition-colors flex-shrink-0"
+                    className="t-icon-link flex-shrink-0"
                   />
                 </div>
 
                 {item.description && (
-                  <p className={`text-xs mb-1 line-clamp-2 ${
-                    isDark ? 'text-gray-400' : 'text-gray-600'
-                  }`}>
+                  <p className="text-xs mb-1 line-clamp-2 t-text-muted">
                     {item.description}
                   </p>
                 )}
 
                 {item.dateAdded && (
-                  <p className="text-xs text-gray-500 mb-2">
+                  <p className="text-xs t-text-subtle mb-2">
                     {item.dateAdded}
                   </p>
                 )}
               </div>
 
               <span
-                className={`inline-block self-start px-2 py-1 text-xs rounded ${
-                  isDark
-                    ? 'bg-[#21262d] text-gray-300'
-                    : 'bg-gray-100 text-gray-700'
-                }`}
+                className="inline-block self-start t-chip px-2 py-1 text-xs rounded"
               >
                 {item.type}
               </span>
@@ -771,18 +665,12 @@ const ProjectsPage: React.FC<PageProps> = ({ isDark }) => (
       </div>
     </div>
 
-    <div className={`rounded-lg overflow-hidden transition-colors duration-300 border ${
-      isDark ? 'bg-[#0d1117] border-[#30363d]' : 'bg-gray-50 border-gray-200'
-    }`}>
+    <div className="rounded-lg overflow-hidden transition-colors duration-300 border t-section">
       {/* Toolbar */}
-      <div className={`px-4 py-3 border-b transition-colors duration-300 ${
-        isDark ? 'border-[#30363d]' : 'border-gray-200'
-      }`}>
+      <div className="px-4 py-3 border-b transition-colors duration-300 t-section-header">
         <div className="flex items-center gap-2">
-          <Folder size={20} className={isDark ? 'text-gray-500' : 'text-gray-600'} />
-          <span className={`font-medium ${
-            isDark ? 'text-white' : 'text-gray-900'
-          }`}>
+          <Folder size={20} className="t-icon-muted" />
+          <span className="font-medium t-text">
             Projects
           </span>
         </div>
@@ -796,12 +684,7 @@ const ProjectsPage: React.FC<PageProps> = ({ isDark }) => (
             href={project.link}
             target="_blank"
             rel="noopener noreferrer"
-            className={`group rounded-lg overflow-hidden border transition-all duration-300 hover:scale-[1.01]
-              flex sm:flex-row lg:flex-col ${
-                isDark
-                  ? 'bg-[#0d1117] border-[#30363d] hover:border-[#484f58]'
-                  : 'bg-white border-gray-200 hover:border-gray-300'
-              }`}
+            className="group rounded-lg overflow-hidden border transition-all duration-300 hover:scale-[1.01] flex sm:flex-row lg:flex-col t-list-item"
           >
             {/* Image */}
             {project.image && (
@@ -810,9 +693,9 @@ const ProjectsPage: React.FC<PageProps> = ({ isDark }) => (
                 <div className="absolute top-2 right-2 z-10">
                   <div 
                     className={`w-3 h-3 rounded-full ${
-                      project.current 
-                        ? 'bg-green-500 animate-pulse shadow-lg shadow-green-500/50' 
-                        : 'bg-gray-400 shadow-lg'
+                      project.current
+                        ? 't-status-dot-active animate-pulse'
+                        : 't-status-dot'
                     }`}
                     title={project.current ? 'Currently working on this' : 'Completed'}
                   />
@@ -829,21 +712,21 @@ const ProjectsPage: React.FC<PageProps> = ({ isDark }) => (
             <div className="flex-1 flex flex-col justify-between p-3 sm:p-4">
               <div>
                 <div className="flex items-start justify-between gap-2 mb-1">
-                  <h3 className={`font-medium text-sm lg:text-base line-clamp-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                  <h3 className="font-medium text-sm lg:text-base line-clamp-2 t-text">
                     {project.name}
                   </h3>
                   <ExternalLink
                     size={16}
-                    className="text-gray-400 group-hover:text-gray-600 transition-colors flex-shrink-0"
+                    className="t-icon-link flex-shrink-0"
                   />
                 </div>
 
-                <p className={`text-xs mb-1 line-clamp-2 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                <p className="text-xs mb-1 line-clamp-2 t-text-muted">
                   {project.type}
                 </p>
 
                 {project.dateAdded && (
-                  <p className="text-xs text-gray-500 mb-2">{project.dateAdded}</p>
+                  <p className="text-xs t-text-subtle mb-2">{project.dateAdded}</p>
                 )}
               </div>
 
@@ -851,9 +734,7 @@ const ProjectsPage: React.FC<PageProps> = ({ isDark }) => (
                 {project.tech.map((tech, i) => (
                   <span
                     key={i}
-                    className={`px-2 py-1 text-xs rounded ${
-                      isDark ? 'bg-[#21262d] text-gray-300' : 'bg-gray-100 text-gray-700'
-                    }`}
+                    className="t-chip px-2 py-1 text-xs rounded"
                   >
                     {tech}
                   </span>
@@ -867,54 +748,285 @@ const ProjectsPage: React.FC<PageProps> = ({ isDark }) => (
   </div>
 );
 
-const DiscussionsPage: React.FC<PageProps> = ({ isDark }) => (
-  <div className="space-y-6 animate-fadeIn">
-    <div>
-      <h1 className={`text-4xl font-bold mb-2 transition-colors duration-300 ${
-        isDark ? 'text-white' : 'text-gray-900'
-      }`}>
-        Discussions
-      </h1>
-      <p className={`text-lg transition-colors duration-300 ${
-        isDark ? 'text-gray-500' : 'text-gray-600'
-      }`}>
-        Leave a comment or start a discussion below
-      </p>
+const InterestsPage: React.FC<PageProps> = ({ isDark }) => {
+  const allTags = Array.from(
+    new Set(interestPins.flatMap((pin) => pin.tags))
+  ).sort();
+  const [activeTag, setActiveTag] = useState<string | null>(null);
+
+  const filteredPins = activeTag
+    ? interestPins.filter((pin) => pin.tags.includes(activeTag))
+    : interestPins;
+
+  const hasInstagramPins = filteredPins.some((pin) => pin.type === 'instagram');
+  useInstagramEmbeds(hasInstagramPins, [filteredPins.map((p) => p.id).join(',')]);
+
+  const PinCard = ({ pin }: { pin: InterestPin }) => {
+    const isEmbeddable = pin.type === 'spotify' || pin.type === 'instagram';
+    const Wrapper = pin.link && !isEmbeddable ? 'a' : 'div';
+    const wrapperProps =
+      pin.link && !isEmbeddable
+        ? { href: pin.link, target: '_blank', rel: 'noopener noreferrer' }
+        : {};
+
+    return (
+      <Wrapper
+        {...wrapperProps}
+        className={`interests-pin group block rounded-2xl overflow-hidden border transition-all duration-300 hover:scale-[1.02] t-pin-card ${
+          pin.type === 'instagram' ? 'interests-pin--instagram' : 'cursor-pointer'
+        }`}
+      >
+        <div className="relative overflow-hidden">
+          {pin.type === 'instagram' && pin.instagramUrl ? (
+            isInstagramPostUrl(pin.instagramUrl) ? (
+              <iframe
+                src={instagramEmbedSrc(pin.instagramUrl)}
+                title={pin.title}
+                className="w-full border-0"
+                style={{ minHeight: 480 }}
+                scrolling="no"
+                allow="encrypted-media"
+                loading="lazy"
+              />
+            ) : (
+              <blockquote
+                className="instagram-media"
+                data-instgrm-permalink={normalizeInstagramPermalink(pin.instagramUrl)}
+                data-instgrm-version="14"
+                style={{
+                  background: 'transparent',
+                  border: 0,
+                  margin: 0,
+                  maxWidth: '100%',
+                  minWidth: 0,
+                  width: '100%',
+                  padding: 0,
+                }}
+              />
+            )
+          ) : pin.type === 'spotify' && pin.embedUrl ? (
+            <iframe
+              src={pin.embedUrl}
+              title={pin.title}
+              className="w-full"
+              height={352}
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+            />
+          ) : pin.type === 'video' ? (
+            pin.videoUrl ? (
+              <iframe
+                src={pin.videoUrl}
+                title={pin.title}
+                className="w-full aspect-video"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            ) : (
+              <video
+                src={pin.mediaUrl}
+                className="w-full object-cover"
+                controls
+                playsInline
+                preload="metadata"
+              />
+            )
+          ) : (
+            <img
+              src={pin.mediaUrl}
+              alt={pin.title}
+              className={`w-full object-cover transition-transform duration-500 group-hover:scale-105 ${
+                pin.type === 'link' ? 'aspect-square' : ''
+              }`}
+              loading="lazy"
+            />
+          )}
+          {!isEmbeddable && (
+            <div
+              className={`absolute inset-0 flex flex-col justify-end p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t pointer-events-none ${
+                isDark ? 'from-black/90 via-black/50' : 'from-black/80 via-black/40'
+              } to-transparent`}
+            >
+              <h3 className="text-white font-semibold text-base">{pin.title}</h3>
+              {pin.description && (
+                <p className="text-white/85 text-sm mt-1 line-clamp-2">{pin.description}</p>
+              )}
+              {pin.link && (
+                <span className="inline-flex items-center gap-1 text-white/70 text-xs mt-2">
+                  <ExternalLink size={12} />
+                  Open
+                </span>
+              )}
+            </div>
+          )}
+        </div>
+        <div className="px-3 py-2.5 sm:hidden t-card">
+          <p className="font-medium text-sm t-text">
+            {pin.title}
+          </p>
+        </div>
+      </Wrapper>
+    );
+  };
+
+  return (
+    <div className="space-y-6 animate-fadeIn -mx-2 sm:mx-0">
+      <div className="px-2 sm:px-0">
+        <h1 className="text-4xl font-bold mb-1 transition-colors duration-300 t-text">
+          Board
+        </h1>
+        <p className="text-lg transition-colors duration-300 t-text-subtle">
+          Interests, photos, videos, and things I enjoy outside of work.
+        </p>
+      </div>
+
+      <div className="flex flex-wrap gap-2 px-2 sm:px-0">
+        <button
+          type="button"
+          onClick={() => setActiveTag(null)}
+          className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+            activeTag === null ? 't-tag-active' : 't-tag'
+          }`}
+        >
+          All
+        </button>
+        {allTags.map((tag) => (
+          <button
+            key={tag}
+            type="button"
+            onClick={() => setActiveTag(tag)}
+            className={`px-4 py-2 rounded-full text-sm font-medium capitalize transition-all duration-200 ${
+              activeTag === tag ? 't-tag-active' : 't-tag'
+            }`}
+          >
+            {tag}
+          </button>
+        ))}
+      </div>
+
+      <div className="interests-masonry columns-2 sm:columns-3 lg:columns-4 px-2 sm:px-0">
+        {filteredPins.map((pin) => (
+          <PinCard key={pin.id} pin={pin} />
+        ))}
+      </div>
+
+      {filteredPins.length === 0 && (
+        <p className="text-center py-12 t-text-subtle">
+          No pins in this category yet.
+        </p>
+      )}
     </div>
-    <div className="mt-6">
-      <Giscus
-        repo="Tofulati/portfolio_v3"
-        repoId="R_kgDOQul_vw"
-        category="General"
-        categoryId="DIC_kwDOQul_v84C0OR1"
-        mapping="pathname"
-        reactionsEnabled='0'
-        strict="0"
-        emitMetadata="1"
-        inputPosition="bottom"
-        theme="preferred_color_scheme"
-        lang="en"
-        loading="lazy"
+  );
+};
+
+const BlogPage: React.FC = () => {
+  const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
+  const selectedPost = blogPosts.find((p) => p.slug === selectedSlug) ?? null;
+
+  if (selectedPost) {
+    return (
+      <BlogPostView
+        post={selectedPost}
+        onBack={() => setSelectedSlug(null)}
       />
+    );
+  }
+
+  return (
+    <div className="space-y-8 animate-fadeIn">
+      <div>
+        <h1 className="text-4xl font-bold mb-2 transition-colors duration-300 t-text">
+          Blog
+        </h1>
+        <p className="text-lg transition-colors duration-300 t-text-subtle">
+          Notes, write-ups, and longer thoughts
+        </p>
+      </div>
+
+      {blogPosts.length === 0 ? (
+        <p className="text-center py-12 t-text-subtle">
+          No posts yet — add markdown files to the <code className="text-sm">blog/</code> directory.
+        </p>
+      ) : (
+        <div className="space-y-4">
+          {blogPosts.map((post) => (
+            <button
+              key={post.slug}
+              onClick={() => setSelectedSlug(post.slug)}
+              className="w-full text-left rounded-xl border p-5 transition-all duration-200 t-card-muted"
+            >
+              <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 mb-2">
+                <h2 className="text-xl font-semibold t-text">
+                  {post.title}
+                </h2>
+                {post.date && (
+                  <time
+                    dateTime={post.date}
+                    className="text-sm whitespace-nowrap t-text-subtle"
+                  >
+                    {formatBlogDate(post.date)}
+                  </time>
+                )}
+              </div>
+              {post.excerpt && (
+                <p className="text-base t-text-muted">
+                  {post.excerpt}
+                </p>
+              )}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
+  );
+};
+
+interface BlogPostViewProps {
+  post: BlogPost;
+  onBack: () => void;
+}
+
+const BlogPostView: React.FC<BlogPostViewProps> = ({ post, onBack }) => (
+  <div className="space-y-6 animate-fadeIn">
+    <button
+      onClick={onBack}
+      className="inline-flex items-center gap-2 text-sm font-medium transition-colors duration-200 t-link"
+    >
+      <ArrowLeft size={16} />
+      Back to blog
+    </button>
+
+    <header>
+      <h1 className="text-4xl font-bold mb-2 t-text">
+        {post.title}
+      </h1>
+      {post.date && (
+        <time
+          dateTime={post.date}
+          className="text-sm t-text-subtle"
+        >
+          {formatBlogDate(post.date)}
+        </time>
+      )}
+    </header>
+
+    <article className="blog-prose">
+      <Markdown>{post.content}</Markdown>
+    </article>
   </div>
 );
 
-interface FooterProps {
-  isDark: boolean;
+function formatBlogDate(isoDate: string): string {
+  const parsed = new Date(isoDate + 'T00:00:00');
+  if (Number.isNaN(parsed.getTime())) return isoDate;
+  return parsed.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 }
 
-const Footer: React.FC<FooterProps> = ({ isDark }) => {
+const Footer: React.FC = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer
-      className={`mt-9 border-t transition-colors duration-300 ${
-        isDark
-          ? 'border-[#30363d] bg-[#0d1117] text-gray-500'
-          : 'border-gray-200 bg-gray-50 text-gray-600'
-      }`}
-    >
+    <footer className="mt-9 transition-colors duration-300 t-footer">
       <div className="max-w-6xl mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
         {/* Left */}
         <p className="text-sm">
@@ -927,7 +1039,7 @@ const Footer: React.FC<FooterProps> = ({ isDark }) => {
             href={PORTFOLIO_DATA.social.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-white transition-colors"
+            className="t-link transition-colors"
           >
             <FaGithub size={20} />
           </a>
@@ -935,21 +1047,13 @@ const Footer: React.FC<FooterProps> = ({ isDark }) => {
             href={PORTFOLIO_DATA.social.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-white transition-colors"
+            className="t-link transition-colors"
           >
             <FaLinkedin size={20} />
           </a>
           <a
-            href={PORTFOLIO_DATA.social.spotify}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-white transition-colors"
-          >
-            <FaSpotify size={20} />
-          </a>
-          <a
             href={`mailto:${PORTFOLIO_DATA.social.email}`}
-            className="hover:text-white transition-colors"
+            className="t-link transition-colors"
           >
             <Mail size={20} />
           </a>

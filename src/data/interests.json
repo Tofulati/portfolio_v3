@@ -1,0 +1,129 @@
+{
+  "instagramAccounts": [
+    {
+      "id": "ig-hotograff",
+      "title": "@hotograff",
+      "description": "Photography",
+      "profileUrl": "https://www.instagram.com/hotograff/",
+      "tags": ["photography"]
+    },
+    {
+      "id": "ig-touxf",
+      "title": "@touxf_",
+      "description": "Photography",
+      "profileUrl": "https://www.instagram.com/touxf_/",
+      "tags": ["photography"]
+    }
+  ],
+  "pins": [
+    {
+      "id": "camping",
+      "title": "Camping",
+      "description": "I love camping and hiking. I have been camping since I started Scouting in Elementary School.",
+      "type": "image",
+      "media": "camping.jpeg",
+      "link": "",
+      "tags": ["nature", "hobbies"]
+    },
+    {
+      "id": "deer",
+      "title": "Hello Deer",
+      "description": "Deer at Nara Park, Japan.",
+      "type": "image",
+      "media": "deer.jpeg",
+      "link": "",
+      "tags": ["nature", "travel"]
+    },
+    {
+      "id": "famichiki",
+      "title": "Famichiki",
+      "description": "Craving some famichiki.",
+      "type": "image",
+      "media": "famichiki.jpeg",
+      "link": "",
+      "tags": ["food", "travel"]
+    }, 
+    {
+      "id": "bamboo",
+      "title": "Bamboo Forest",
+      "description": "One of the coolest places I have been to. Kyoto, Japan.",
+      "type": "image",
+      "media": "japan_bamboo.jpeg",
+      "link": "",
+      "tags": ["nature", "travel", "photography"]
+    },
+    {
+      "id": "kr_singfood",
+      "title": "Singaporean Food in Korea",
+      "description": "Trying out some Singaporean food in Korea .o.",
+      "type": "image",
+      "media": "kr_singfood.jpeg",
+      "link": "",
+      "tags": ["food", "travel", "hobbies"]
+    },
+    {
+      "id": "krtower",
+      "title": "KR Tower",
+      "description": "Love taking pictures of landmarks. KR Tower, Seoul, Korea.",
+      "type": "image",
+      "media": "krtower.jpeg",
+      "link": "",
+      "tags": ["travel", "photography"]
+    },
+    {
+      "id": "pizzaz",
+      "title": "Pizzaza",
+      "description": "Nom nom nom.",
+      "type": "image",
+      "media": "pizzaz.jpeg",
+      "link": "",
+      "tags": ["food"]
+    },
+    {
+      "id": "haewon",
+      "title": "NMIXX THE BEST",
+      "description": "Best group in KPOP. HAEWON :))",
+      "type": "image",
+      "media": "haewon.jpeg",
+      "link": "",
+      "tags": ["music", "kpop"]
+    },
+    {
+      "id": "taiwan_eats",
+      "title": "Taiwan 'Night' Market",
+      "description": "Potato Balls are the best in Taiwan. Highly recommend.",
+      "type": "image",
+      "media": "taiwan_eats.jpeg",
+      "link": "",
+      "tags": ["food", "travel"]
+    },
+    {
+      "id": "triples",
+      "title": "TripleS Concert",
+      "description": "One of my favorite KPOP groups. Recc if you like LOONA",
+      "type": "video",
+      "media": "triples.mp4",
+      "link": "",
+      "tags": ["music", "kpop"]
+    },
+    {
+      "id": "wexpo_vid",
+      "title": "World Expo 2026, Japan",
+      "description": "Cool exhibit at the World Expo 2026, Japan.",
+      "type": "video",
+      "media": "wexpo_vid.mp4",
+      "link": "",
+      "tags": ["travel", "photography"]
+    },
+    {
+      "id": "current_favs",
+      "title": "current favs...",
+      "description": "What I'm listening to right now.",
+      "type": "spotify",
+      "media": "",
+      "embedUrl": "https://open.spotify.com/embed/playlist/7tXs2pqJcSXloWsVzKjUJK?utm_source=generator",
+      "link": "https://open.spotify.com/playlist/7tXs2pqJcSXloWsVzKjUJK?si=9847f18767b54935",
+      "tags": ["music"]
+    }
+  ]
+}

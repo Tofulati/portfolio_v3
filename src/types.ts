@@ -45,6 +45,28 @@ export interface SimpleResearch {
   current: boolean;
 }
 
+export interface InterestPin {
+  id: string;
+  title: string;
+  description?: string;
+  type: 'image' | 'video' | 'link' | 'spotify' | 'instagram';
+  mediaUrl: string;
+  link?: string;
+  videoUrl?: string;
+  embedUrl?: string;
+  /** Post or profile permalink for type `instagram` */
+  instagramUrl?: string;
+  tags: string[];
+}
+
+export interface BlogPost {
+  slug: string;
+  title: string;
+  date: string;
+  excerpt: string;
+  content: string;
+}
+
 export interface PortfolioData {
   name: string;
   tagline: string;
@@ -52,7 +74,6 @@ export interface PortfolioData {
   social: {
     github: string;
     linkedin: string;
-    spotify: string;
     email: string;
   };
   experiences: Experience[];
