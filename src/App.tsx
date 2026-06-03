@@ -80,6 +80,15 @@ const PORTFOLIO_DATA: PortfolioData = {
   ],
   allProjects: [
     {
+      name: "Personal Notes",
+      type: "Web browser note taking application. Quick, actionable summaries and transcripts.",
+      tech: ["python", "ollama"],
+      link: "https://github.com/Tofulati/personalNotes",
+      dateAdded: "May 2026",
+      image: "/images/ucsd-logo.png",
+      current: true
+    },
+    {
       name: "Drug Routing",
       type: "Path finding from Drugs -> Proteins -> Genes -> Diseases",
       tech: ["pytorch", "scikit-learn", "python"],
