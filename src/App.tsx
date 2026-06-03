@@ -230,10 +230,10 @@ const App: React.FC = () => {
   const isDark = theme === 'dark';
 
   const tabUrl: Record<TabId, string> = {
-    home: 'albertho.dev',
-    projects: 'albertho.dev/projects',
-    interests: 'albertho.dev/board',
-    blog: 'albertho.dev/blog',
+    home: 'https://albertho.vercel.app/',
+    projects: 'https://albertho.vercel.app/projects',
+    interests: 'https://albertho.vercel.app/board',
+    blog: 'https://albertho.vercel.app/blog',
   };
 
   return (
@@ -245,10 +245,13 @@ const App: React.FC = () => {
       <div className="browser-backdrop-wallpaper" aria-hidden />
       <div className="browser-window relative z-10 w-full max-w-6xl mx-auto rounded-xl transition-all duration-300 border overflow-hidden">
         {/* Browser chrome + tab strip */}
-        <div className="browser-chrome transition-colors duration-300">
+        <div
+          className="browser-chrome select-none transition-colors duration-300"
+          onDragStart={(e) => e.preventDefault()}
+        >
           {/* Title bar */}
           <div className="flex items-center justify-between px-4 pt-3 pb-2">
-            <div className="browser-traffic-lights flex items-center gap-2">
+            <div className="browser-traffic-lights flex items-center gap-2" draggable={false}>
               <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
               <div className="w-3 h-3 rounded-full bg-[#febc2e]" />
               <div className="w-3 h-3 rounded-full bg-[#28c840]" />
@@ -256,6 +259,8 @@ const App: React.FC = () => {
             <button
               onClick={toggleTheme}
               type="button"
+              draggable={false}
+              onDragStart={(e) => e.preventDefault()}
               className="browser-theme-toggle p-1.5 rounded-md transition-all duration-200"
               title={`Theme: ${theme}`}
             >
@@ -275,6 +280,8 @@ const App: React.FC = () => {
                   key={label}
                   type="button"
                   aria-label={label}
+                  draggable={false}
+                  onDragStart={(e) => e.preventDefault()}
                   className="browser-nav-btn p-1.5 rounded-md transition-colors"
                 >
                   <Icon size={15} strokeWidth={2} />
@@ -282,7 +289,11 @@ const App: React.FC = () => {
               ))}
             </div>
 
-            <div className="browser-address-bar flex flex-1 min-w-0 items-center gap-2 rounded-full px-3.5 py-1.5 text-sm transition-colors duration-300">
+            <div
+              className="browser-address-bar flex flex-1 min-w-0 items-center gap-2 rounded-full px-3.5 py-1.5 text-sm transition-colors duration-300"
+              draggable={false}
+              onDragStart={(e) => e.preventDefault()}
+            >
               <Lock size={12} className="browser-lock shrink-0" strokeWidth={2.5} />
               <span className="truncate font-normal tracking-tight opacity-90">
                 {tabUrl[activeTab]}
@@ -291,7 +302,10 @@ const App: React.FC = () => {
           </div>
 
           {/* Tab strip */}
-          <div className="browser-tab-strip flex items-end gap-0.5 px-3 overflow-x-auto">
+          <div
+            className="browser-tab-strip flex items-end gap-0.5 px-3"
+            onDragStart={(e) => e.preventDefault()}
+          >
             {tabs.map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -299,8 +313,10 @@ const App: React.FC = () => {
                 <button
                   key={tab.id}
                   type="button"
+                  draggable={false}
+                  onDragStart={(e) => e.preventDefault()}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`browser-tab group relative flex items-center gap-2 max-w-[11rem] sm:max-w-[13rem] px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium whitespace-nowrap transition-all duration-200 rounded-t-lg -mb-px ${
+                  className={`browser-tab group relative flex flex-1 min-w-0 items-center gap-2 max-w-[11rem] sm:max-w-[13rem] px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium whitespace-nowrap transition-all duration-200 rounded-t-lg -mb-px ${
                     isActive ? 'browser-tab-active z-10' : 'browser-tab-inactive'
                   }`}
                 >

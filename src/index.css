@@ -504,6 +504,16 @@ body {
 
 .browser-chrome {
   background-color: var(--t-chrome);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.browser-chrome * {
+  -webkit-user-drag: none;
+}
+
+.browser-chrome svg {
+  pointer-events: none;
 }
 
 .browser-page {
@@ -544,6 +554,8 @@ body {
 
 .browser-tab-strip {
   border-top: 1px solid var(--t-border);
+  overflow-x: hidden;
+  touch-action: pan-y;
 }
 
 .browser-tab-active {
