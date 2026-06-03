@@ -8,4 +8,4 @@ excerpt: Making something great.
 
 Within this blog page, I will talk about my thoughts on different ideas, projects, or interests of mine. Please share any thoughts or comment on the blogs for fun. I would love to hear your thoughts.
 
-![Deer Hello](public/interests/deer.jpeg)
+![Deer Hello](/interests/deer.jpeg)
