@@ -2,6 +2,8 @@
 title: The Great Matcha Trail to Performatism
 date: 2026-06-04
 excerpt: Albert's Great Matcha Trail to Performatism
+tags: matcha, food, performatism
+pinned: false
 ---
 
 A great performative boss (philosopher) once told me:
@@ -22,10 +24,14 @@ Maybe I don't understand it. Maybe the barista had an off day. Maybe the milk wa
 
 So, I set my path onward to reach this. This treacherous path is not an easy one (especially for my wallet), but it must be done. I must become one with the performative.
 
+
 ## Englightenment Log
 
 | Store | Rating | Description |
 | ----- | ------ | ----------- |
 | Cafe Maiko | 5/10 | First stop on the trail. Whole milk matcha latte — grassy, bitter after notes, but overall meh. |
 
+
 Follow me as I document that journey. [View here](https://beliapp.co/app/tofulati)
+
+![matcha](/interests/matcha.jpeg)

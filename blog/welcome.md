@@ -2,6 +2,8 @@
 title: Welcome to the blog
 date: 2026-06-02
 excerpt: Making something great.
+tags: welcome
+pinned: true
 ---
 
 # I am always making something new. 

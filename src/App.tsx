@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Home, Folder, BookOpen, Moon, Sun, ExternalLink, Mail, FileText, LayoutGrid, ArrowLeft, ChevronLeft, ChevronRight, RotateCw, Lock } from 'lucide-react';
+import { Home, Folder, BookOpen, Moon, Sun, ExternalLink, Mail, FileText, LayoutGrid, ArrowLeft, ChevronLeft, ChevronRight, RotateCw, Lock, Pin } from 'lucide-react';
 import { FaGithub, FaLinkedin } from 'react-icons/fa'
 import type { PortfolioData, InterestPin, BlogPost } from './types';
 import { interestPins } from './data/interests';
-import { blogPosts } from './data/blog';
+import { blogPosts, blogTags } from './data/blog';
 import { useInstagramEmbeds } from './hooks/useInstagramEmbeds';
 import {
   instagramEmbedSrc,
@@ -947,7 +947,13 @@ const InterestsPage: React.FC<PageProps> = ({ isDark }) => {
 
 const BlogPage: React.FC = () => {
   const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
+  const [activeTag, setActiveTag] = useState<string | null>(null);
   const selectedPost = blogPosts.find((p) => p.slug === selectedSlug) ?? null;
+
+  const filteredPosts =
+    activeTag === null
+      ? blogPosts
+      : blogPosts.filter((post) => post.tags.includes(activeTag));
 
   if (selectedPost) {
     return (
@@ -969,22 +975,61 @@ const BlogPage: React.FC = () => {
         </p>
       </div>
 
+      {blogTags.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={() => setActiveTag(null)}
+            className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+              activeTag === null ? 't-tag-active' : 't-tag'
+            }`}
+          >
+            All
+          </button>
+          {blogTags.map((tag) => (
+            <button
+              key={tag}
+              type="button"
+              onClick={() => setActiveTag(tag)}
+              className={`px-4 py-2 rounded-full text-sm font-medium capitalize transition-all duration-200 ${
+                activeTag === tag ? 't-tag-active' : 't-tag'
+              }`}
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
+      )}
+
       {blogPosts.length === 0 ? (
         <p className="text-center py-12 t-text-subtle">
           No posts yet — add markdown files to the <code className="text-sm">blog/</code> directory.
         </p>
+      ) : filteredPosts.length === 0 ? (
+        <p className="text-center py-12 t-text-subtle">
+          No posts with this tag yet.
+        </p>
       ) : (
         <div className="space-y-4">
-          {blogPosts.map((post) => (
+          {filteredPosts.map((post) => (
             <button
               key={post.slug}
               onClick={() => setSelectedSlug(post.slug)}
               className="w-full text-left rounded-xl border p-5 transition-all duration-200 t-card-muted"
             >
               <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 mb-2">
-                <h2 className="text-xl font-semibold t-text">
-                  {post.title}
-                </h2>
+                <div className="flex items-center gap-2 min-w-0">
+                  {post.pinned && (
+                    <Pin
+                      size={16}
+                      className="shrink-0 t-text-subtle"
+                      aria-label="Pinned post"
+                    />
+                  )}
+                  <h2 className="text-xl font-semibold t-text">
+                    {post.title}
+                  </h2>
+                </div>
                 {post.date && (
                   <time
                     dateTime={post.date}
@@ -995,9 +1040,21 @@ const BlogPage: React.FC = () => {
                 )}
               </div>
               {post.excerpt && (
-                <p className="text-base t-text-muted">
+                <p className="text-base t-text-muted mb-3">
                   {post.excerpt}
                 </p>
+              )}
+              {post.tags.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {post.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="t-chip px-2.5 py-0.5 text-xs rounded-full capitalize"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               )}
             </button>
           ))}
@@ -1022,8 +1079,24 @@ const BlogPostView: React.FC<BlogPostViewProps> = ({ post, onBack }) => (
       Back to blog
     </button>
 
-    <header>
-      <h1 className="text-4xl font-bold mb-2 t-text">
+    <header className="space-y-3">
+      <div className="flex flex-wrap items-center gap-2">
+        {post.pinned && (
+          <span className="inline-flex items-center gap-1 t-chip px-2.5 py-0.5 text-xs rounded-full">
+            <Pin size={12} aria-hidden />
+            Pinned
+          </span>
+        )}
+        {post.tags.map((tag) => (
+          <span
+            key={tag}
+            className="t-chip px-2.5 py-0.5 text-xs rounded-full capitalize"
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
+      <h1 className="text-4xl font-bold t-text">
         {post.title}
       </h1>
       {post.date && (

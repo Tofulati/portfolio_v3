@@ -65,6 +65,8 @@ export interface BlogPost {
   date: string;
   excerpt: string;
   content: string;
+  tags: string[];
+  pinned: boolean;
 }
 
 export interface PortfolioData {

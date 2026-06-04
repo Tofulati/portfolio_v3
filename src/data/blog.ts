@@ -21,6 +21,20 @@ function parseFrontmatter(raw: string): { meta: Record<string, string>; content:
   return { meta, content: match[2].trim() };
 }
 
+function parseTags(value: string | undefined): string[] {
+  if (!value) return [];
+  return value
+    .split(',')
+    .map((tag) => tag.trim())
+    .filter(Boolean);
+}
+
+function parsePinned(value: string | undefined): boolean {
+  if (!value) return false;
+  const normalized = value.toLowerCase();
+  return normalized === 'true' || normalized === 'yes' || normalized === '1';
+}
+
 function slugFromPath(path: string): string {
   return path.split('/').pop()!.replace(/\.md$/, '');
 }
@@ -35,6 +49,15 @@ export const blogPosts: BlogPost[] = Object.entries(postModules)
       date: meta.date ?? '',
       excerpt: meta.excerpt ?? '',
       content,
+      tags: parseTags(meta.tags),
+      pinned: parsePinned(meta.pinned),
     };
   })
-  .sort((a, b) => b.date.localeCompare(a.date));
+  .sort((a, b) => {
+    if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
+    return b.date.localeCompare(a.date);
+  });
+
+export const blogTags: string[] = [
+  ...new Set(blogPosts.flatMap((post) => post.tags)),
+].sort((a, b) => a.localeCompare(b));

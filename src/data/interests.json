@@ -124,6 +124,15 @@
       "embedUrl": "https://open.spotify.com/embed/playlist/7tXs2pqJcSXloWsVzKjUJK?utm_source=generator",
       "link": "https://open.spotify.com/playlist/7tXs2pqJcSXloWsVzKjUJK?si=9847f18767b54935",
       "tags": ["music"]
+    },
+    {
+      "id": "performatism",
+      "title": "Performatism with Matcha",
+      "description": "Matcha in Osaka, Japan.",
+      "type": "image",
+      "media": "matcha.jpeg",
+      "link": "",
+      "tags": ["food", "travel"]
     }
   ]
 }
