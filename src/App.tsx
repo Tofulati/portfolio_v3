@@ -11,6 +11,7 @@ import {
   normalizeInstagramPermalink,
 } from './lib/instagram';
 import Markdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { FaMagnifyingGlass } from 'react-icons/fa6';
 
 // Portfolio Data - Replace with your actual information
@@ -1036,7 +1037,7 @@ const BlogPostView: React.FC<BlogPostViewProps> = ({ post, onBack }) => (
     </header>
 
     <article className="blog-prose">
-      <Markdown>{post.content}</Markdown>
+      <Markdown remarkPlugins={[remarkGfm]}>{post.content}</Markdown>
     </article>
   </div>
 );

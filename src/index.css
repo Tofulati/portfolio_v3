@@ -397,6 +397,31 @@ body {
   background-color: var(--t-code-bg);
 }
 
+.blog-prose table {
+  width: 100%;
+  margin-bottom: 1.25rem;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+.blog-prose th,
+.blog-prose td {
+  padding: 0.625rem 0.75rem;
+  text-align: left;
+  border: 1px solid var(--t-border);
+  vertical-align: top;
+}
+
+.blog-prose th {
+  font-weight: 600;
+  background-color: var(--t-muted);
+}
+
+.theme-light .blog-prose th,
+.theme-dark .blog-prose th {
+  color: var(--t-text);
+}
+
 @keyframes backdrop-drift-a {
   0%, 100% {
     transform: translate(0%, 0%) scale(1);
