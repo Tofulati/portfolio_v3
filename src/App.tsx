@@ -29,9 +29,9 @@ const PORTFOLIO_DATA: PortfolioData = {
       title: "Frontend Engineer Intern",
       company: "Cadent",
       image: "/images/cadent.svg",
-      period: "June 2026 - Present",
-      description: "In progress...",
-      skills: ["React"],
+      period: "June 2026 - August 2026",
+      description: "Engineered an AI-assisted software development workflow that transforms Jira Epics and Stories into structured, implementation-ready plans, executes those plans through Cursor agents, and generates and pushes pull requests",
+      skills: ["Cursor", "React", "TypeScript", "Model Context Protocol"],
       current: true
     },
     {
@@ -167,7 +167,7 @@ const PORTFOLIO_DATA: PortfolioData = {
       name: "Albert Ho's Resume.pdf",
       type: "PDF Document",
       link: "/documents/AlbertHo.pdf",
-      dateAdded: "April 16, 2026",
+      dateAdded: "August 18, 2026",
       image: "/images/AlbertHo.jpg"
     }
   ],
