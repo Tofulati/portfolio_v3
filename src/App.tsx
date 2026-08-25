@@ -231,10 +231,10 @@ const App: React.FC = () => {
   const isDark = theme === 'dark';
 
   const tabUrl: Record<TabId, string> = {
-    home: 'https://albertho.vercel.app/',
-    projects: 'https://albertho.vercel.app/projects',
-    interests: 'https://albertho.vercel.app/board',
-    blog: 'https://albertho.vercel.app/blog',
+    home: 'https://albertho.xyz/',
+    projects: 'https://albertho.xyz/projects',
+    interests: 'https://albertho.xyz/board',
+    blog: 'https://albertho.xyz/blog',
   };
 
   return (
