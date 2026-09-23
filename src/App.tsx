@@ -55,12 +55,20 @@ const PORTFOLIO_DATA: PortfolioData = {
   ],
   featuredProjects: [
     {
+      title: "travelope",
+      description: "Personalized travel journal.",
+      tech: ["react native", "typescript", "cursor", "expo"],
+      link: "https://github.com/Tofulati/travelope",
+      image: "/images/ucsd-logo.png",
+      current: true
+    },
+    {
       title: "WebDevScan",
       description: "Battle and test your inspect element skills on simulated pages",
       image: "/images/webdevscan.png",
       tech: ["React", "TypeScript", "Storybook"],
       link: "https://github.com/Tofulati/webdevscav",
-      current: true
+      current: false
     },
     {
       title: "kumQAt",
@@ -81,13 +89,22 @@ const PORTFOLIO_DATA: PortfolioData = {
   ],
   allProjects: [
     {
+      name: "travelope",
+      type: "Personalized travel journal.",
+      tech: ["react native", "typescript", "cursor", "expo"],
+      link: "https://github.com/Tofulati/travelope",
+      dateAdded: "May 2026",
+      image: "/images/ucsd-logo.png",
+      current: true
+    },
+    {
       name: "Personal Notes",
       type: "Web browser note taking application. Quick, actionable summaries and transcripts.",
       tech: ["python", "ollama"],
       link: "https://github.com/Tofulati/personalNotes",
       dateAdded: "May 2026",
       image: "/images/ucsd-logo.png",
-      current: true
+      current: false
     },
     {
       name: "Drug Routing",
@@ -96,7 +113,7 @@ const PORTFOLIO_DATA: PortfolioData = {
       link: "https://github.com/Tofulati/drug_routing",
       dateAdded: "April 2026",
       image: "/images/ucsd-logo.png",
-      current: true
+      current: false
     },
     {
       name: "WebdevScan",
@@ -105,7 +122,7 @@ const PORTFOLIO_DATA: PortfolioData = {
       link: "https://github.com/Tofulati/webdevscav",
       dateAdded: "October 2025 - Present",
       image: "/images/webdevscan.png",
-      current: true
+      current: false
     },
     {
       name: "kumQAt",
