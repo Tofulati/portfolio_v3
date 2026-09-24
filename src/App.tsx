@@ -16,9 +16,9 @@ import { FaMagnifyingGlass } from 'react-icons/fa6';
 
 // Portfolio Data - Replace with your actual information
 const PORTFOLIO_DATA: PortfolioData = {
-  name: "Albert Ho",
+  name: "Albert Ho, B.S",
   tagline: "student | researcher | developer",
-  current: "Currently studying Computer Science @ UC San Diego|",
+  current: "Currently doing M.S. Computer Science @ UC San Diego",
   social: {
     github: "https://github.com/Tofulati",
     linkedin: "https://linkedin.com/in/albertho",
