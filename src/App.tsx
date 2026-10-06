@@ -184,7 +184,7 @@ const PORTFOLIO_DATA: PortfolioData = {
       name: "Albert Ho's Resume.pdf",
       type: "PDF Document",
       link: "/documents/AlbertHo.pdf",
-      dateAdded: "August 18, 2026",
+      dateAdded: "October 6, 2026",
       image: "/images/AlbertHo.jpg"
     }
   ],
